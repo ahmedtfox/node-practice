@@ -1,6 +1,7 @@
 const http = require("http");
 const { text, buffer } = require("stream/consumers");
 const fs = require("fs");
+const { error } = require("console");
 const server = http.createServer((req, res) => {
   const url = req.url;
   const method = req.method;
@@ -34,10 +35,11 @@ const server = http.createServer((req, res) => {
       const finalData = Buffer.concat(body).toString().replaceAll("+", " ");
       messageText = finalData.split("=")[1];
       console.log(messageText);
-      fs.writeFileSync("newFile.txt", messageText);
-      res.statusCode = 302;
-      res.setHeader("Location", "/");
-      res.end();
+      fs.writeFile("newFile.txt", messageText, (error) => {
+        res.statusCode = 302;
+        res.setHeader("Location", "/");
+        res.end();
+      });
     });
   }
   /* 
