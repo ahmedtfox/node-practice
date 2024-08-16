@@ -29,16 +29,16 @@ const server = http.createServer((req, res) => {
       console.log(" /n ");
       body.push(chunk);
     });
-    req.on("end", () => {
+    return req.on("end", () => {
       //console.log(body);
       const finalData = Buffer.concat(body).toString().replaceAll("+", " ");
       messageText = finalData.split("=")[1];
       console.log(messageText);
       fs.writeFileSync("newFile.txt", messageText);
+      res.statusCode = 302;
+      res.setHeader("Location", "/");
+      res.end();
     });
-    res.statusCode = 302;
-    res.setHeader("Location", "/");
-    return res.end();
   }
   /* 
   console.log("i hear you");
