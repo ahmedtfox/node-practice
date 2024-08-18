@@ -2,7 +2,9 @@ const { text, buffer } = require("stream/consumers");
 
 const { error } = require("console");
 const http = require("http");
-const route = require("./routs");
-const server = http.createServer(route.handler);
+
+const express = require("express");
+const app = express();
+const server = http.createServer(app);
 
 server.listen(3000);
