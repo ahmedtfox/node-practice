@@ -5,12 +5,17 @@ const { error } = require("console");
 const express = require("express");
 const app = express();
 
-app.use((req, res, next) => {
-  console.log("hi it's middleware 1");
+app.use("/", (req, res, next) => {
+  console.log("this always runs");
   next(); // Allows the request to continue to the next middleware in line.
 });
 
-app.use((req, res, next) => {
+app.use("/add-product", (req, res, next) => {
+  console.log("hi it's middleware 2");
+  res.send("<h1>add-product</h1>");
+});
+
+app.use("/", (req, res, next) => {
   console.log("hi it's middleware 2");
   res.send("<h1>hello from Express!</h1>");
 });
