@@ -6,6 +6,7 @@ const bodyParser = require("body-parser");
 
 router.use(bodyParser.urlencoded());
 
+// /admin/add-product ==>GET
 router.get("/add-product", (req, res, next) => {
   console.log("hi it's middleware 2");
   res.send(`<form action="/admin/add-product" method="post">
@@ -13,7 +14,7 @@ router.get("/add-product", (req, res, next) => {
     <button type="submit">send</button>
   </form>`);
 });
-
+// /admin/add-product ==>POST
 router.post("/add-product", (req, res, next) => {
   console.log(req.body);
   // res.send("<h1>this is product!</h1>");
