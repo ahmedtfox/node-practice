@@ -4,15 +4,21 @@ const { error } = require("console");
 
 const express = require("express");
 const app = express();
+const bodyParser = require("body-parser");
 
-app.use("/", (req, res, next) => {
-  console.log("this always runs");
-  next(); // Allows the request to continue to the next middleware in line.
-});
+app.use(bodyParser.urlencoded());
 
 app.use("/add-product", (req, res, next) => {
   console.log("hi it's middleware 2");
-  res.send("<h1>add-product</h1>");
+  res.send(`<form action="/product" method="post">
+  <input type="text" name="title" />
+  <button type="submit">send</button>
+</form>`);
+});
+
+app.use("/product", (req, res, next) => {
+  console.log(req.body);
+  res.send("<h1>hello from Express!</h1>");
 });
 
 app.use("/", (req, res, next) => {
