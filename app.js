@@ -4,6 +4,7 @@ const { error } = require("console");
 
 const express = require("express");
 const app = express();
+const path = require("path");
 
 const admin = require("./routes/admin"); // order of importing doesn't matter
 const shop = require("./routes/shop");
@@ -15,7 +16,8 @@ app.use("/admin", admin);
 app.use(shop); // order of using the routes matter
 // it doesn't matter because we use get
 app.use((req, res, next) => {
-  res.status(404).send("<h1>page note found</h1>");
+  //res.status(404).send("<h1>page note found</h1>");
+  res.sendFile(path.join(__dirname, "views", "page-not-found.html"));
 });
 
 app.listen(3000);
