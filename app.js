@@ -11,7 +11,7 @@ const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded());
 
-app.use(admin);
+app.use("/admin", admin);
 app.use(shop); // order of using the routes matter
 // it doesn't matter because we use get
 app.use((req, res, next) => {
