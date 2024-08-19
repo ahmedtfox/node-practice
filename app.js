@@ -16,9 +16,9 @@ app.use("/add-product", (req, res, next) => {
 </form>`);
 });
 
-app.use("/product", (req, res, next) => {
+app.post("/product", (req, res, next) => {
   console.log(req.body);
-  res.send("<h1>hello from Express!</h1>");
+  res.send("<h1>this is product!</h1>");
 });
 
 app.use("/", (req, res, next) => {
