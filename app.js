@@ -4,26 +4,15 @@ const { error } = require("console");
 
 const express = require("express");
 const app = express();
+
+const admin = require("./routes/admin"); // order of importing doesn't matter
+const shop = require("./routes/shop");
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded());
 
-app.use("/add-product", (req, res, next) => {
-  console.log("hi it's middleware 2");
-  res.send(`<form action="/product" method="post">
-  <input type="text" name="title" />
-  <button type="submit">send</button>
-</form>`);
-});
-
-app.post("/product", (req, res, next) => {
-  console.log(req.body);
-  res.send("<h1>this is product!</h1>");
-});
-
-app.use("/", (req, res, next) => {
-  console.log("hi it's middleware 2");
-  res.send("<h1>hello from Express!</h1>");
-});
+app.use(admin);
+app.use(shop); // order of using the routes matter
+// it doesn't matter because we use get
 
 app.listen(3000);
