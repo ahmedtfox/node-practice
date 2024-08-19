@@ -17,7 +17,9 @@ app.use(shop); // order of using the routes matter
 // it doesn't matter because we use get
 app.use((req, res, next) => {
   //res.status(404).send("<h1>page note found</h1>");
-  res.sendFile(path.join(__dirname, "views", "page-not-found.html"));
+  res
+    .status(404)
+    .sendFile(path.join(__dirname, "views", "page-not-found.html"));
 });
 
 app.listen(3000);
