@@ -12,6 +12,8 @@ const bodyParser = require("body-parser");
 
 app.set("view engine", "pug");
 app.set("views", "views");
+
+
 app.use(bodyParser.urlencoded());
 
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
