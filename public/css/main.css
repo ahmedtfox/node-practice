@@ -43,3 +43,9 @@ main {
 .main-header__item a.active {
   color: #3e00a1;
 }
+
+.active {
+  background-color: chocolate;
+  padding-top: 30px;
+  padding-bottom: 20px;
+}
