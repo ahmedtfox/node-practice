@@ -11,6 +11,10 @@ const adminData = require("./admin");
 
 const productsController = require("../controllers/products");
 
+const cart = require("../controllers/cart");
+
 router.get("/", productsController.getProducts);
+
+router.get("/cart", cart.cart);
 
 module.exports = router;

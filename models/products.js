@@ -12,10 +12,15 @@ const p = path.join(
 const getProductsFromFile = (cd) => {
   fs.readFile(p, (err, fileContent) => {
     // it has to be arrow function
+    const data = fileContent;
     if (err) {
       cd([]);
     } else {
-      cd(JSON.parse(fileContent));
+      if (data.length === 0) {
+        cd([]);
+      } else {
+        cd(JSON.parse(data));
+      }
     }
   });
 };
@@ -39,3 +44,6 @@ module.exports = class Product {
     });
   }
 };
+/* 
+new Uint8Array([]) 
+*/

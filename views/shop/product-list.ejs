@@ -1,9 +1,9 @@
-<%- include('includes/head.ejs')%>
+<%- include('../includes/head.ejs')%>
     <link rel="stylesheet" href="/css/product.css" />
   </head>
 
   <body>
-    <%- include('includes/navigation.ejs')%>
+    <%- include('../includes/navigation.ejs')%>
     <main>
       <% if(prods.length > 0) { %> <% for(let i=0 ;i < prods.length ;i++) { %>
       <div class="grid">
@@ -12,8 +12,8 @@
             <h1 class="product__title"><%= prods[i].title %></h1>
           </header>
           <div class="card__image">
-            <img
-              src="https://cdn.pixabay.com/photo/2016/03/31/20/51/book-1296045_960_720.png"
+            <img id="bookImage"
+              src="https://i.pinimg.com/564x/f8/7d/63/f87d6301aaa7749ee8839b25f1c7c58e.jpg"
               alt="A Book"
             />
           </div>
@@ -33,4 +33,4 @@
       <h1>No products Found</h1>
       <% } %>
     </main>
-    <%- include('includes/end.ejs')%>
+    <%- include('../includes/end.ejs')%>
