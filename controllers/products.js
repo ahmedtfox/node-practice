@@ -1,7 +1,6 @@
 const Product = require("../models/products");
 
 exports.getAddProduct = (req, res, next) => {
-  console.log("hi it's middleware 2");
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("add-product", {
     docTitle: "Add Product",
@@ -21,13 +20,13 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  const products = Product.fetchAll();
-  //console.log("hiiiiiiii", Product.fetchAll());
-  res.render("shop", {
-    prods: [],
-    docTitle: "Shop",
-    path: "/",
-    //hasProducts: products.length > 0,
-    activeShop: true,
+  Product.fetchAll((products) => {
+    res.render("shop", {
+      prods: products,
+      docTitle: "Shop",
+      path: "/",
+      hasProducts: products.length > 0,
+      activeShop: true,
+    });
   });
 };

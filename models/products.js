@@ -25,7 +25,7 @@ module.exports = class Product {
       });
     });
   }
-  static fetchAll() {
+  static fetchAll(cd) {
     const p = path.join(
       path.dirname(require.main.filename),
       "data",
@@ -33,11 +33,11 @@ module.exports = class Product {
     );
     fs.readFile(p, (err, fileContent) => {
       if (err) {
-        return [];
+        cd([]);
       }
       //console.log(JSON.parse(fileContent));
       const output = Array.from(JSON.parse(fileContent));
-      return output;
+      cd(output);
     });
   }
 };
