@@ -35,14 +35,12 @@ app.set("views", "views");
  */
 app.use(bodyParser.urlencoded());
 
+const productsController = require("./controllers/error");
+
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
-app.use("/admin", admin.routs);
+app.use("/admin", admin);
 app.use(shop); // order of using the routes matter
 // it doesn't matter because we use get
-app.use((req, res, next) => {
-  //res.status(404).send("<h1>page note found</h1>");
-  //res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
-  res.status(404).render("404", { docTitle: "Page not found" });
-});
+app.use(productsController.page404);
 
 app.listen(3000);

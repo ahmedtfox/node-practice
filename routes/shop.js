@@ -9,17 +9,8 @@ router.use(bodyParser.urlencoded());
 
 const adminData = require("./admin");
 
-router.get("/", (req, res, next) => {
-  //res.send("<h1>this is shop page!</h1>");
-  console.log(adminData.products);
-  // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  res.render("shop", {
-    prods: adminData.products,
-    docTitle: "Shop",
-    path: "/",
-    hasProducts: adminData.products.length > 0,
-    activeShop: true,
-  });
-});
+const productsController = require("../controllers/products");
+
+router.get("/", productsController.getProducts);
 
 module.exports = router;
