@@ -18,16 +18,12 @@ exports.postAddProduct = (req, res, next) => {
   res.redirect("/");
 };
 
-exports.getProducts = (req, res, next) => {
+exports.getEditProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  Product.fetchAll((products) => {
-    const data = products || [];
-    res.render("shop/product-list", {
-      prods: data,
-      docTitle: "Shop",
-      path: "/",
-      hasProducts: data.length > 0,
-      activeShop: true,
-    });
+  console.log("pk");
+  res.render("shop/index", {
+    prods: data,
+    docTitle: "Shop",
+    path: "admin/products",
   });
 };
