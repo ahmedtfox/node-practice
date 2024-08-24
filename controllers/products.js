@@ -22,13 +22,12 @@ exports.postAddProduct = (req, res, next) => {
 exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
   const products = Product.fetchAll();
+  //console.log("hiiiiiiii", Product.fetchAll());
   res.render("shop", {
-    prods: products,
+    prods: [],
     docTitle: "Shop",
     path: "/",
-    hasProducts: products.length > 0,
+    //hasProducts: products.length > 0,
     activeShop: true,
   });
 };
-
-
