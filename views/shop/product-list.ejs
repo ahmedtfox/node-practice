@@ -5,29 +5,27 @@
   <body>
     <%- include('../includes/navigation.ejs')%>
     <main>
-      <% if(prods.length > 0) { %> <% for(let i=0 ;i < prods.length ;i++) { %>
+      <% if(products.length > 0) { %> <% for(let i=0 ;i < products.length ;i++) { %>
       <div class="grid">
         <article class="card product-item">
           <header class="card__header">
-            <h1 class="product__title"><%= prods[i].title %></h1>
+            <h1 class="product__title"><%= products[i].title %></h1>
           </header>
           <div class="card__image">
-            <img id="bookImage"
-              src=<%= prods[i].imageURL %>
+            <img class="productImage"
+              src=<%= products[i].imageURL %>
               alt="A Book"
             />
           </div>
           <div class="card__content">
-            <h2 class="product__price">$<%=prods[i].price%></h2>
+            <h2 class="product__price">$<%=products[i].price%></h2>
             <p class="product__description">
-              <%=prods[i].description%>
+              <%=products[i].description%>
             </p>
           </div>
           <div class="card__actions">
-            <a href="/products/<%=prods[i].id%>" class="btn">Details</a>
-            <form action="/add-to-cart" method="post">
-              <button class="btn">Add to Cart</button>
-            </form>
+            <a href="/products/<%=products[i].Id%>" class="btn">Details</a>
+            <%- include('../includes/add-to-cart.ejs',{i:i})%>
           </div>
         </article>
       </div>

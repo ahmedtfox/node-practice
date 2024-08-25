@@ -35,7 +35,7 @@ module.exports = class Product {
     // Product.id += 1;
   }
   save() {
-    this.id = (Math.random() * 1000).toFixed(0);
+    this.Id = (Math.random() * 1000).toFixed(0);
     getProductsFromFile((products) => {
       products.push(this);
       fs.writeFile(p, JSON.stringify(products), (err) => {
@@ -49,10 +49,10 @@ module.exports = class Product {
       cd(products);
     });
   }
-  static findById(id, cd) {
+  static findById(Id, cd) {
     getProductsFromFile((products) => {
       const product = products.find((p) => {
-        if (p.id === id) {
+        if (p.Id === Id) {
           return true;
         }
       });

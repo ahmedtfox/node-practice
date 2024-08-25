@@ -23,7 +23,7 @@ exports.getProducts = (req, res, next) => {
   Product.fetchAll((products) => {
     const data = products || [];
     res.render("shop/product-list", {
-      prods: data,
+      products: data,
       docTitle: "Shop",
       path: "/products",
     });
@@ -35,7 +35,7 @@ exports.getIndex = (req, res, next) => {
   Product.fetchAll((products) => {
     const data = products || [];
     res.render("shop/index", {
-      prods: data,
+      products: data,
       docTitle: "Shop",
       path: "/",
     });
@@ -68,6 +68,17 @@ exports.getOrders = (req, res, next) => {
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
   Product.findById(prodId, (product) => {
-    console.log(product);
+    //console.log(product);
+    res.render("shop/product-detail", {
+      product: product,
+      docTitle: "product detail",
+      path: "/products",
+    });
   });
+};
+
+exports.postCart = (req, res, next) => {
+  const productId = req.body.productId;
+  console.log(req.body);
+  res.redirect("/cart");
 };
