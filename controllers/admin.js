@@ -23,14 +23,14 @@ exports.postAddProduct = (req, res, next) => {
   res.redirect("/");
 };
 
-exports.getEditProducts = (req, res, next) => {
+exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
   Product.fetchAll((products) => {
     const data = products || [];
-    res.render("admin/edit-product", {
+    res.render("admin/products", {
       prods: data,
       docTitle: "Admin Products",
-      path: "/admin/edit-product",
+      path: "/admin/products",
     });
   });
 };

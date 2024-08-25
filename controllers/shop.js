@@ -42,7 +42,7 @@ exports.getIndex = (req, res, next) => {
   });
 };
 
-exports.cart = (req, res, next) => {
+exports.getCart = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("shop/cart", {
     docTitle: "cart",
@@ -50,10 +50,17 @@ exports.cart = (req, res, next) => {
   });
 };
 
-exports.checkout = (req, res, next) => {
+exports.ektCheckout = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("shop/checkout", {
     docTitle: "checkout",
     path: "/checkout",
+  });
+};
+
+exports.getOrders = () => {
+  res.render("shop/orders", {
+    path: "/orders",
+    docTitle: "Your Orders",
   });
 };

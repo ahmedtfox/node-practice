@@ -12,7 +12,7 @@ const { title } = require("process");
 const adminController = require("../controllers/admin");
 
 // /admin/products ==>GET
-router.get("/admin/edit-product", adminController.getEditProducts);
+router.get("/admin/products", adminController.getProducts);
 // /admin/add-product ==>GET
 router.get("/admin/add-product", adminController.getAddProduct);
 /* 
