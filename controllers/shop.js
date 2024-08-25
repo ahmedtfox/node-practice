@@ -50,7 +50,7 @@ exports.getCart = (req, res, next) => {
   });
 };
 
-exports.ektCheckout = (req, res, next) => {
+exports.getCheckout = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("shop/checkout", {
     docTitle: "checkout",
@@ -58,9 +58,14 @@ exports.ektCheckout = (req, res, next) => {
   });
 };
 
-exports.getOrders = () => {
+exports.getOrders = (req, res, next) => {
   res.render("shop/orders", {
     path: "/orders",
     docTitle: "Your Orders",
   });
+};
+
+exports.getProduct = (req, res, next) => {
+  const prodId = req.params.productId;
+  console.log(prodId);
 };
