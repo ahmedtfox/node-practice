@@ -22,7 +22,7 @@ module.exports = class Cart {
           }
         }
         if (!productExist) {
-          cart.push({ productId: id, qty: 1, productPrice: productPrice });
+          cart.push({ productId: id, qty: 1 });
         }
         fs.writeFile(p, JSON.stringify(cart), (err) => {
           if (err) {
