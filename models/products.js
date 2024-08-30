@@ -50,7 +50,22 @@ module.exports = class Product {
             fs.writeFile(p, JSON.stringify(products), (err) => {
               console.log(err);
             });
+            return;
           }
+        }
+      }
+    });
+  }
+
+  static delete(productId) {
+    getProductsFromFile((products) => {
+      for (let i = 0; i < products.length; i++) {
+        if (productId === products[i].Id) {
+          products.splice(i, 1);
+          fs.writeFile(p, JSON.stringify(products), (err) => {
+            console.log(err);
+          });
+          return;
         }
       }
     });
