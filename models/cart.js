@@ -32,6 +32,25 @@ module.exports = class Cart {
       }
     });
   }
+  static deleteCartProduct(productId) {
+    fs.readFile(p, (err, fileContent) => {
+      if (err) {
+        return;
+      }
+      let cart = JSON.parse(fileContent);
+      for (let i = 0; i < cart.length; i++) {
+        if (cart[i].productId === productId) {
+          cart.splice(i, 1);
+          fs.writeFile(p, JSON.stringify(cart), (err) => {
+            console.log(err);
+          });
+          break;
+        }
+      }
+    });
+  }
 };
 
-/* { "products": [{ "id": "5635", "qty": 2 }], "totalPrice": "654" } */
+/*
+{ "products": [{ "id": "5635", "qty": 2 }], "totalPrice": "654" } 
+*/

@@ -2,7 +2,7 @@ const products = [];
 const { json } = require("body-parser");
 const fs = require("fs");
 const path = require("path");
-
+const Cart = require("../models/cart");
 const p = path.join(
   path.dirname(require.main.filename),
   "data",
@@ -63,7 +63,10 @@ module.exports = class Product {
         if (productId === products[i].Id) {
           products.splice(i, 1);
           fs.writeFile(p, JSON.stringify(products), (err) => {
-            console.log(err);
+            if (!err) {
+              Cart.deleteCartProduct(productId);
+              console.log(err);
+            }
           });
           return;
         }
