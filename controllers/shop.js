@@ -44,9 +44,32 @@ exports.getIndex = (req, res, next) => {
 
 exports.getCart = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
-  res.render("shop/cart", {
-    docTitle: "cart",
-    path: "/cart",
+  Cart.getCart((cart) => {
+    let cartInfo = [];
+    Product.fetchAll((products) => {
+      let cartProducts = cart.cartProducts;
+      for (let i = 0; i < cartProducts.length; i++) {
+        for (let ii = 0; ii < products.length; ii++) {
+          if (cartProducts[i].productId === products[ii].Id) {
+            let cartProduct = products[ii];
+            let product = {
+              Id: cartProduct.Id,
+              title: cartProduct.title,
+              imageURL: cartProduct.imageURL,
+              description: cartProduct.description,
+              price: cartProduct.price,
+              qty: cartProducts[i].qty,
+            };
+            cartInfo.push(product);
+          }
+        }
+      }
+      res.render("shop/cart", {
+        docTitle: "cart",
+        path: "/cart",
+        cart: cartInfo,
+      });
+    });
   });
 };
 

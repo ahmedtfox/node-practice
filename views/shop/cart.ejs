@@ -4,24 +4,27 @@
   <body>
     <%- include('../includes/navigation.ejs')%>
     <main>
-      <form class="product-form" action="/admin/add-product" method="POST">
-        <div class="form-control">
-          <label for="title">Title</label>
-          <input type="text" name="title" id="title" />
-        </div>
-        <div class="form-control">
-          <label for="imageUrl">image Url</label>
-          <input type="imageUrl" name="imageUrl" id="imageUrl" />
-        </div>
-        <div class="form-control">
-          <label for="price">Price</label>
-          <input type="number" name="price" id="price" />
-        </div>
-        <div class="form-control">
-          <label for="description">Description</label>
-          <textarea rows="5" name="description" id="description"></textarea>
-        </div>
-        <button type="submit">Add Product</button>
-      </form>
+      <% if(cart.length>0){%>
+        <ol>
+          <% for(let i=0;i<cart.length;i++ ) { %>
+
+              <li>
+                <ul>
+                  <li>
+                    title of the product  <%= cart[i].title%>
+                  </li>
+                  <li>
+                    price is  <%= cart[i].price%>
+                  </li>
+                  <li>
+                    quantity is <%= cart[i].qty%>
+                  </li>
+                </ul>
+              </li>
+        <%}%>
+      </ol>
+      <%}else{%>
+        <h1>no Products in the cart</h1>
+        <%}%>
     </main>
     <%- include('../includes/end.ejs')%>

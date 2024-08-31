@@ -56,7 +56,6 @@ module.exports = class Product {
       }
     });
   }
-
   static delete(productId) {
     getProductsFromFile((products) => {
       for (let i = 0; i < products.length; i++) {
