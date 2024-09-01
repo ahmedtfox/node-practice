@@ -92,8 +92,9 @@ exports.getOrders = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  Product.findById(prodId, (product) => {
-    //console.log(product);
+  Product.findById(prodId).then((result) => {
+    const product = result[0][0];
+    console.log(product);
     res.render("shop/product-detail", {
       product: product,
       docTitle: "product detail",
@@ -104,10 +105,12 @@ exports.getProduct = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
   const productId = req.body.productId;
-  Product.findById(productId, (product) => {
-    Cart.addProduct(product.Id, product.price);
+  Product.findById(productId).then((result) => {
+    const product = result[0][0];
+    console.log(product);
+    Cart.addProduct(product.id, product.price);
+    res.redirect("/cart");
   });
-  res.redirect("/cart");
 };
 
 exports.postCartDeleteProduct = (req, res, next) => {
