@@ -36,27 +36,22 @@ module.exports = class Cart {
       }
     });
   }
-
-  /* 
-{
-    "cartProducts":[
-    { "productId": "5465", "qty": 1 },
-    { "productId": "216", "qty": 1 },
-    { "productId": "939", "qty": 1 }
-  ],
-  "totalPrice":4566
-}
-
-*/
-  static deleteCartProduct(productId) {
+  static deleteCartProduct(productId, productPrice) {
     fs.readFile(p, (err, fileContent) => {
       if (err) {
         return;
       }
       let cart = JSON.parse(fileContent);
-      for (let i = 0; i < cart.length; i++) {
-        if (cart[i].productId === productId) {
-          cart.splice(i, 1);
+      let cartProducts = cart.cartProducts;
+      let totalPrice = cart.totalPrice;
+      for (let i = 0; i < cartProducts.length; i++) {
+        const theProduct = cartProducts[i];
+        if (theProduct.productId === productId) {
+          cartProducts.splice(i, 1);
+          if (productPrice) {
+            totalPrice = totalPrice - productPrice * theProduct.qty;
+          }
+          cart = { cartProducts: cartProducts, totalPrice: totalPrice };
           fs.writeFile(p, JSON.stringify(cart), (err) => {
             console.log(err);
           });
@@ -76,7 +71,3 @@ module.exports = class Cart {
     });
   }
 };
-
-/*
-{ "products": [{ "id": "5635", "qty": 2 }], "totalPrice": "654" } 
-*/

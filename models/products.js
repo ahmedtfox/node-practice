@@ -60,10 +60,11 @@ module.exports = class Product {
     getProductsFromFile((products) => {
       for (let i = 0; i < products.length; i++) {
         if (productId === products[i].Id) {
+          const price = products[i].price;
           products.splice(i, 1);
           fs.writeFile(p, JSON.stringify(products), (err) => {
             if (!err) {
-              Cart.deleteCartProduct(productId);
+              Cart.deleteCartProduct(productId, price);
               console.log(err);
             }
           });

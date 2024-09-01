@@ -9,7 +9,7 @@
           <% for(let i=0;i<cart.length;i++ ) { %>
 
               <li>
-                <ul>
+                <ul  >
                   <li>
                     title of the product  <%= cart[i].title%>
                   </li>
@@ -19,12 +19,17 @@
                   <li>
                     quantity is <%= cart[i].qty%>
                   </li>
+                    <form action="/cart-delete-item" method="post">
+                      <input type="hidden" name="productId" value="<%= cart[i].Id%>">
+                      <button class="btn" type="submit">Delete</button>
+                    </form>
                 </ul>
               </li>
         <%}%>
       </ol>
+      <h3><%=cartTotalPrice %></h3>
       <%}else{%>
-        <h1>no Products in the cart</h1>
+        <h1>No Products in the cart</h1>
         <%}%>
     </main>
     <%- include('../includes/end.ejs')%>
