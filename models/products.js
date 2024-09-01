@@ -9,6 +9,8 @@ const p = path.join(
   "products.json"
 );
 
+const db = require("../util/database");
+
 const getProductsFromFile = (cd) => {
   fs.readFile(p, (err, fileContent) => {
     // it has to be arrow function
@@ -74,10 +76,8 @@ module.exports = class Product {
     });
   }
 
-  static fetchAll(cd) {
-    getProductsFromFile((products) => {
-      cd(products);
-    });
+  static fetchAll() {
+    return db.execute("SELECT * FROM products");
   }
   static findById(Id, cd) {
     getProductsFromFile((products) => {

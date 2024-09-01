@@ -20,8 +20,8 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  Product.fetchAll((products) => {
-    const data = products || [];
+  Product.fetchAll().then(([rows, fieldData]) => {
+    const data = rows || [];
     res.render("shop/product-list", {
       products: data,
       docTitle: "Shop",
@@ -32,7 +32,7 @@ exports.getProducts = (req, res, next) => {
 
 exports.getIndex = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  Product.fetchAll((products) => {
+  Product.fetchAll().then(([products, fieldData]) => {
     const data = products || [];
     res.render("shop/index", {
       products: data,
