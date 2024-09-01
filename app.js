@@ -45,6 +45,12 @@ app.use(shop); // order of using the routes matter
 // it doesn't matter because we use get
 app.use(productsController.page404);
 
-db.execute("SELECT * FROM products");
+db.execute("SELECT * FROM products")
+  .then((result) => {
+    console.log(result[0]);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 app.listen(3000);
