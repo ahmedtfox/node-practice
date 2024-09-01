@@ -46,7 +46,7 @@ exports.getCart = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   Cart.getCart((cart) => {
     let cartInfo = [];
-    Product.fetchAll((products) => {
+    Product.fetchAll().then(([products, fieldData]) => {
       let cartProducts = cart.cartProducts;
       let cartTotalPrice = cart.totalPrice;
       for (let i = 0; i < cartProducts.length; i++) {

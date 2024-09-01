@@ -38,25 +38,10 @@ module.exports = class Product {
     // Product.id += 1;
   }
   save() {
-    getProductsFromFile((products) => {
-      if (this.Id === null) {
-        this.Id = (Math.random() * 1000).toFixed(0);
-        products.push(this);
-        fs.writeFile(p, JSON.stringify(products), (err) => {
-          console.log(err);
-        });
-      } else {
-        for (let i = 0; i < products.length; i++) {
-          if (products[i].Id === this.Id) {
-            products[i] = this;
-            fs.writeFile(p, JSON.stringify(products), (err) => {
-              console.log(err);
-            });
-            return;
-          }
-        }
-      }
-    });
+    return db.execute(
+      "INSERT INTO products(title,price,imageURL,description) VALUES(?,?,?,?)",
+      [this.title, this.price, this.imageURL, this.description]
+    );
   }
   static delete(productId) {
     getProductsFromFile((products) => {
@@ -79,16 +64,7 @@ module.exports = class Product {
   static fetchAll() {
     return db.execute("SELECT * FROM products");
   }
-  static findById(Id, cd) {
-    getProductsFromFile((products) => {
-      const product = products.find((p) => {
-        if (p.Id === Id) {
-          return true;
-        }
-      });
-      cd(product);
-    });
-  }
+  static findById(Id, cd) {}
 };
 /* 
 new Uint8Array([]) 
