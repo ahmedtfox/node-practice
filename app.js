@@ -6,6 +6,8 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
+const db = require("./util/database");
+
 /*
 express-handlebars
 const expressHBS = require("express-handlebars");
@@ -42,5 +44,7 @@ app.use(admin);
 app.use(shop); // order of using the routes matter
 // it doesn't matter because we use get
 app.use(productsController.page404);
+
+db.execute("SELECT * FROM products");
 
 app.listen(3000);
