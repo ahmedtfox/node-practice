@@ -6,7 +6,10 @@ const express = require("express");
 const app = express();
 const path = require("path");
 
+// Data Base
 const sequelize = require("./util/database");
+const Product = require("./models/products");
+const User = require("./models/user");
 
 // ejs
 app.set("view engine", "ejs");
@@ -26,8 +29,11 @@ app.use(shop); // order of using the routes matter
 // it doesn't matter because we use get
 app.use(productsController.page404);
 
+Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
+User.hasMany(Product);
+
 sequelize
-  .sync()
+  .sync({ force: true })
   .then((result) => {
     //console.log(result);
     app.listen(3000);
