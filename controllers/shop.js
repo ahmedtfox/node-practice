@@ -21,14 +21,18 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  Product.fetchAll().then(([rows, fieldData]) => {
-    const data = rows || [];
-    res.render("shop/product-list", {
-      products: data,
-      docTitle: "Shop",
-      path: "/products",
+  Product.findAll()
+    .then((rows) => {
+      const data = rows || [];
+      res.render("shop/product-list", {
+        products: data,
+        docTitle: "Shop",
+        path: "/products",
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  });
 };
 
 exports.getIndex = (req, res, next) => {
@@ -46,7 +50,7 @@ exports.getCart = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   Cart.getCart((cart) => {
     let cartInfo = [];
-    Product.fetchAll().then(([products, fieldData]) => {
+    Product.findAll().then((products) => {
       let cartProducts = cart.cartProducts;
       let cartTotalPrice = cart.totalPrice;
       for (let i = 0; i < cartProducts.length; i++) {
