@@ -32,10 +32,10 @@ exports.getProducts = (req, res, next) => {
 
 exports.getIndex = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  Product.fetchAll().then(([products, fieldData]) => {
-    const data = products || [];
+  Product.findAll().then((products) => {
+    console.log(products);
     res.render("shop/index", {
-      products: data,
+      products: products,
       docTitle: "Shop",
       path: "/",
     });
