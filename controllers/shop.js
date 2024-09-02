@@ -1,5 +1,6 @@
 const Product = require("../models/products");
 const Cart = require("../models/cart");
+const { where } = require("sequelize");
 exports.getAddProduct = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("admin/add-product", {
@@ -33,7 +34,6 @@ exports.getProducts = (req, res, next) => {
 exports.getIndex = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
   Product.findAll().then((products) => {
-    console.log(products);
     res.render("shop/index", {
       products: products,
       docTitle: "Shop",
@@ -92,15 +92,24 @@ exports.getOrders = (req, res, next) => {
 
 exports.getProduct = (req, res, next) => {
   const prodId = req.params.productId;
-  Product.findById(prodId).then((result) => {
-    const product = result[0][0];
-    console.log(product);
+
+  Product.findAll({ where: { id: prodId } }).then((products) => {
+    const product = products[0];
     res.render("shop/product-detail", {
       product: product,
       docTitle: "product detail",
       path: "/products",
     });
   });
+  /*   Product.findByPk(prodId).then((result) => {
+    const product = result;
+    console.log(product);
+    res.render("shop/product-detail", {
+      product: product,
+      docTitle: "product detail",
+      path: "/products",
+    });
+  }); */
 };
 
 exports.postCart = (req, res, next) => {

@@ -10,7 +10,7 @@
             <div>
                 <img class="productImage" src="<%=product.imageURL%>" >
             </div>
-            <h2><%=product.title%></h2>
+            <h2><%=product.description%></h2>
             <form action="/cart" method="post">
                 <input type="hidden" name="productId" value="<%=product.id%>">
                 <button class="btn">Add to cart</button>
