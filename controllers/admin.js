@@ -108,7 +108,16 @@ exports.postEditProduct = (req, res, next) => {
 
 exports.postDeleteProduct = (req, res, next) => {
   const productId = req.body.productId;
-  Product.delete(productId);
-  console.log(productId);
-  return res.redirect("/");
+
+  Product.findByPk(productId)
+    .then((product) => {
+      return product.destroy();
+    })
+    .then((result) => {
+      console.log("product Deleted");
+      return res.redirect("/");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
