@@ -32,10 +32,33 @@ app.use(productsController.page404);
 Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
 User.hasMany(Product);
 
+app.use((req, res, next) => {
+  User.findByPk(1)
+    .then((user) => {
+      req.user = user;
+      next();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
+
+//sync({ force: true })
 sequelize
-  .sync({ force: true })
+  .sync()
   .then((result) => {
     //console.log(result);
+
+    return User.findByPk(1);
+  })
+  .then((user) => {
+    if (!user) {
+      return User.create({ name: "ahmed", email: "ahmed@gmail.com" });
+    }
+    return user;
+  })
+  .then((user) => {
+    //console.log(typeof User);
     app.listen(3000);
   })
   .catch((err) => {
