@@ -32,7 +32,7 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  Product.findAll().then((products) => {
+  req.user.getProducts().then((products) => {
     const data = products || [];
     res.render("admin/products", {
       prods: data,
@@ -48,9 +48,10 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect("/");
   }
   const productId = req.params.productId;
-
-  Product.findByPk(productId)
-    .then((product) => {
+  req.user
+    .getProducts({ where: { id: productId } })
+    .then((products) => {
+      const product = products[0];
       if (!product) {
         return res.redirect("/");
       }
@@ -65,23 +66,6 @@ exports.getEditProduct = (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
-
-  /*  Product.findById(productId)
-    .then(([product]) => {
-      if (!product) {
-        return res.redirect("/");
-      }
-      res.render("admin/edit-product", {
-        prods: req.params,
-        docTitle: "Edit Product",
-        path: "/admin/edit-product",
-        editing: editMode,
-        product: product,
-      });
-    })
-    .catch((err) => {
-      console.log(err);
-    }); */
 };
 
 exports.postEditProduct = (req, res, next) => {
