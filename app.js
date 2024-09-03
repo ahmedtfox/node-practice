@@ -10,6 +10,8 @@ const path = require("path");
 const sequelize = require("./util/database");
 const Product = require("./models/products");
 const User = require("./models/user");
+const Cart = require("./models/cart");
+const CartItem = require("./models/cart-item");
 
 // ejs
 app.set("view engine", "ejs");
@@ -43,6 +45,12 @@ app.use(productsController.page404);
 Product.belongsTo(User, { constrains: true, onDelete: "CASCADE" });
 User.hasMany(Product);
 
+User.hasOne(Cart);
+Cart.belongsTo(User);
+
+Cart.belongsToMany(Product, { through: CartItem });
+Product.belongsToMany(Cart, { through: CartItem });
+
 //sync({ force: true })
 sequelize
   .sync()
@@ -59,6 +67,7 @@ sequelize
   })
   .then((user) => {
     //console.log(typeof User);
+    user.createCart();
     app.listen(3000);
   })
   .catch((err) => {
