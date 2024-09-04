@@ -115,7 +115,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.postCart = (req, res, next) => {
-  const productId = req.body.productId;
+  const productId = Number(req.body.productId);
   let fetchedCart;
   req.user
     .getCart()
@@ -124,11 +124,14 @@ exports.postCart = (req, res, next) => {
       return cart.getProducts({ where: { id: productId } });
     })
     .then((products) => {
-      if (products.length > 0) {
-        console.log(products);
-        console.log("hiiiiiiiiiiiiiii");
-      }
       let newQuantity = 1;
+      if (products.length > 0) {
+        const cartProductId = products[0].id;
+        if (cartProductId === productId) {
+          //console.log("it's the same product");
+          newQuantity = products[0].cartItem.quantity + 1;
+        }
+      }
       return Product.findByPk(productId)
         .then((product) => {
           return fetchedCart.addProduct(product, {

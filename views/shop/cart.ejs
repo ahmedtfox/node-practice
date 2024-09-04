@@ -6,28 +6,30 @@
     <main>
       <% if(cart.length>0){%>
         <ol>
+          <%let totalPrice=0%>
           <% for(let i=0;i<cart.length;i++ ) { %>
-
+            <%const item=cart[i]; %>
+            <%totalPrice=totalPrice+(item.price*item.cartItem.quantity)%>
               <li>
                 <ul  >
                   <li>
-                    title of the product  <%= cart[i].title%>
+                    title of the product  <%= item.title%>
                   </li>
                   <li>
-                    price is  <%= cart[i].price%>
+                    price is  <%= item.price%>
                   </li>
                   <li>
-                    quantity is <%= cart[i].qty%>
+                    quantity is <%= item.cartItem.quantity%>
                   </li>
                     <form action="/cart-delete-item" method="post">
-                      <input type="hidden" name="productId" value="<%= cart[i].Id%>">
+                      <input type="hidden" name="productId" value="<%= item.Id%>">
                       <button class="btn" type="submit">Delete</button>
                     </form>
                 </ul>
               </li>
         <%}%>
       </ol>
-      <h3><%=cartTotalPrice %></h3>
+      <h3><%= totalPrice %></h3>
       <%}else{%>
         <h1>No Products in the cart</h1>
         <%}%>
