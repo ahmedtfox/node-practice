@@ -22,7 +22,7 @@
                     quantity is <%= item.cartItem.quantity%>
                   </li>
                     <form action="/cart-delete-item" method="post">
-                      <input type="hidden" name="productId" value="<%= item.Id%>">
+                      <input type="hidden" name="productId" value="<%= item.id%>">
                       <button class="btn" type="submit">Delete</button>
                     </form>
                 </ul>
