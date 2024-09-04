@@ -1,5 +1,6 @@
 const Product = require("../models/products");
 const Cart = require("../models/cart");
+const Order = require("../models/oder");
 const { where } = require("sequelize");
 exports.getAddProduct = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
@@ -163,6 +164,31 @@ exports.postCartDeleteProduct = (req, res, next) => {
     })
     .then((result) => {
       res.redirect("/cart");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
+exports.postOrder = (req, res, next) => {
+  let orderProducts;
+  req.user
+    .getCart()
+    .then((cart) => {
+      return cart.getProducts();
+    })
+    .then((products) => {
+      orderProducts = products.map((product) => {
+        product.orderItem = { quantity: product.cartItem.quantity };
+        return product;
+      });
+      return req.user.createOrder();
+    })
+    .then((order) => {
+      return order.addProducts(orderProducts);
+    })
+    .then((result) => {
+      res.redirect("/orders");
     })
     .catch((err) => {
       console.log(err);

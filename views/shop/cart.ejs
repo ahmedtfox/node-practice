@@ -27,9 +27,15 @@
                     </form>
                 </ul>
               </li>
+              
         <%}%>
       </ol>
       <h3><%= totalPrice %></h3>
+      <div class="centered">
+        <form action="/create-order" method="post">
+          <button class="btn" type="submit">Order Now!</button>
+        </form>
+        </div>
       <%}else{%>
         <h1>No Products in the cart</h1>
         <%}%>
