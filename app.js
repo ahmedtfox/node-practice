@@ -9,6 +9,8 @@ const path = require("path");
 // ejs
 app.set("view engine", "ejs");
 app.set("views", "views");
+// Data Base
+const mongoConnect = require("./util/database.js");
 
 const admin = require("./routes/admin"); // order of importing doesn't matter
 const shop = require("./routes/shop");
@@ -31,7 +33,15 @@ app.use((req, res, next) => {
     }); */
 });
 
-app.use(admin);
-app.use(shop); // order of using the routes matter
+/* app.use(admin);
+app.use(shop);  */
+// order of using the routes matter
+
 // it doesn't matter because we use get
-app.use(productsController.page404);
+
+//app.use(productsController.page404);
+
+mongoConnect((client) => {
+  console.log(client);
+  app.listen(3000);
+});

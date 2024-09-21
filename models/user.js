@@ -1,4 +1,4 @@
-const db = require("../util/database");
+/* const db = require("../util/database");
 
 const Sequelize = require("sequelize");
 
@@ -14,3 +14,4 @@ const User = db.define("user", {
 });
 
 module.exports = User;
+ */

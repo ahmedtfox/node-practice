@@ -1,4 +1,4 @@
-const db = require("../util/database");
+/* const db = require("../util/database");
 const Sequelize = require("sequelize");
 
 const OrderItem = db.define("orderItem", {
@@ -12,3 +12,4 @@ const OrderItem = db.define("orderItem", {
 });
 
 module.exports = OrderItem;
+ */
