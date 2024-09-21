@@ -1,6 +1,5 @@
 const Product = require("../models/products");
 
-
 exports.getAddProduct = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("admin/edit-product", {
@@ -16,14 +15,13 @@ exports.postAddProduct = (req, res, next) => {
   const imageUrl = req.body.imageUrl || "";
   const price = req.body.price || 0;
   const description = req.body.description || "";
-  req.user
-    .createProduct({
-      title: title,
-      price: price,
-      imageURL: imageUrl,
-      description: description,
-    })
-    .then(() => {
+
+  const product = new Product(title, price, description, imageUrl);
+
+  product
+    .save()
+    .then((result) => {
+      console.log(result);
       res.redirect("/");
     })
     .catch((err) => {
