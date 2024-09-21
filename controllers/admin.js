@@ -1,5 +1,6 @@
 const Product = require("../models/products");
 
+
 exports.getAddProduct = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("admin/edit-product", {
