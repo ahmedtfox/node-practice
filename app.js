@@ -35,7 +35,7 @@ app.use((req, res, next) => {
 });
 
 app.use(admin);
-//app.use(shop); 
+app.use(shop); 
 // order of using the routes matter
 
 // it doesn't matter because we use get
