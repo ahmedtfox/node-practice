@@ -28,6 +28,8 @@ app.use(bodyParser.urlencoded());
 const productsController = require("./controllers/error");
 
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
+
+
 app.use((req, res, next) => {
   User.findByPk(1)
     .then((user) => {
@@ -59,8 +61,8 @@ Order.belongsToMany(Product, { through: OrderItem });
 
 //sync({ force: true })
 sequelize
-  .sync({ force: true })
-  //.sync()
+  //.sync({ force: true })
+  .sync()
   .then((result) => {
     //console.log(result);
     return User.findByPk(1);
