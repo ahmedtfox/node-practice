@@ -41,7 +41,6 @@ app.use(shop);  */
 
 //app.use(productsController.page404);
 
-mongoConnect((client) => {
-  console.log(client);
+mongoConnect(() => {
   app.listen(3000);
 });

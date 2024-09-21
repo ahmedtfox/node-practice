@@ -1,4 +1,14 @@
-const Sequelize = require("sequelize");
+const getDB = require("../util/database").getDB;
+
+class Product {
+  constructor(title, price, description, imageUrl) {
+    this.title = title;
+    this.price = price;
+    this.description = description;
+    this.imageUrl = imageUrl;
+  }
+  save() {}
+}
 
 //const db = require("../util/database");
 /* 
