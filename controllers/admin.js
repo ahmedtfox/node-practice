@@ -31,7 +31,7 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  req.user.getProducts().then((products) => {
+  Product.fetchAll().then((products) => {
     const data = products || [];
     res.render("admin/products", {
       prods: data,

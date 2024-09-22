@@ -9,7 +9,7 @@
       type="imageUrl"
       name="imageUrl"
       id="imageUrl"
-      value="<%=product.imageURL%>"
+      value="<%=product.imageUrl%>"
     />
   </div>
   <div class="form-control">
@@ -22,6 +22,6 @@
 <%=product.description%></textarea
     >
   </div>
-  <input name="productId" type="hidden" value="<%= product.id%>" />
+  <input name="productId" type="hidden" value="<%= product._id%>" />
   <button type="submit">edit Product</button>
 </form>

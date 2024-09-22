@@ -13,7 +13,7 @@
           </header>
           <div class="card__image">
             <img id="bookImage"
-              src=<%= prods[i].imageURL %>
+              src=<%= prods[i].imageUrl %>
               alt="A Book"
             />
           </div>
@@ -24,11 +24,11 @@
             </p>
           </div>
           <div class="card__actions">
-              <button class="btn"><a href="http://localhost:3000/admin/edit-product/<%=prods[i].id%>?edit=true" >edit</a></button>
+              <button class="btn"><a href="http://localhost:3000/admin/edit-product/<%=prods[i]._id%>?edit=true" >edit</a></button>
           </div>
           <div class="card__actions">
             <form method="post" action="http://localhost:3000/admin/delete-product">
-              <input name="productId" type="hidden" value="<%= prods[i].id%>" />
+              <input name="productId" type="hidden" value="<%= prods[i]._id%>" />
               <button type="submit">Delete</button>
             </form>
           </div>
