@@ -2,11 +2,12 @@ const mongodb = require("mongodb");
 const getDB = require("../util/database").getDB;
 
 class Product {
-  constructor(title, price, description, imageUrl) {
+  constructor(title, price, description, imageUrl, id) {
     this.title = title;
     this.price = price;
     this.description = description;
     this.imageUrl = imageUrl;
+    this._id = id;
   }
   save() {
     const db = getDB();
@@ -21,7 +22,18 @@ class Product {
         console.log(err);
       });
   }
-
+  update() {
+    const db = getDB();
+    return db
+      .collection("products")
+      .updateOne({ _id: new mongodb.ObjectId(this._id) }, { $set: this })
+      .then((result) => {
+       return result;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   static fetchAll() {
     const db = getDB();
     return db
@@ -45,14 +57,11 @@ class Product {
       .next()
       .then((product) => {
         return product;
-        console.log(product);
       })
       .catch((err) => {
         console.log(err);
       });
   }
-
-  
 }
 
 module.exports = Product;

@@ -1,5 +1,5 @@
 const Product = require("../models/products");
-
+const mongoDb = require("mongodb");
 exports.getAddProduct = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("admin/edit-product", {
@@ -46,14 +46,17 @@ exports.getEditProduct = (req, res, next) => {
   if (!editMode) {
     return res.redirect("/");
   }
+
   const productId = req.params.productId;
-  req.user
-    .getProducts({ where: { id: productId } })
-    .then((products) => {
-      const product = products[0];
+  console.log(productId);
+  Product.findById(productId)
+    .then((product) => {
       if (!product) {
         return res.redirect("/");
       }
+      console.log("=".repeat(20));
+      console.log(product);
+      console.log("=".repeat(20));
       res.render("admin/edit-product", {
         prods: req.params,
         docTitle: "Edit Product",
@@ -73,16 +76,28 @@ exports.postEditProduct = (req, res, next) => {
   const updated_price = req.body.price || 0;
   const updated_description = req.body.description || "";
   const updated_title = req.body.title || "";
-  Product.findByPk(productId)
+
+  /*   Product.findById(productId)
     .then((product) => {
-      product.imageURL = updated_imageUrl;
+      product.imageUrl = updated_imageUrl;
       product.price = updated_price;
       product.description = updated_description;
       product.title = updated_title;
+
+      console.log(product);
       return product.save();
-    })
+    }) */
+  const product = new Product(
+    updated_title,
+    updated_price,
+    updated_description,
+    updated_imageUrl,
+    new mongoDb.ObjectId(productId)
+  );
+  product
+    .update()
     .then((result) => {
-      console.log("product updated");
+      //console.log(result);
       res.redirect("/admin/products");
     })
     .catch((err) => {
