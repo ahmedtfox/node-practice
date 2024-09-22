@@ -77,22 +77,12 @@ exports.postEditProduct = (req, res, next) => {
   const updated_description = req.body.description || "";
   const updated_title = req.body.title || "";
 
-  /*   Product.findById(productId)
-    .then((product) => {
-      product.imageUrl = updated_imageUrl;
-      product.price = updated_price;
-      product.description = updated_description;
-      product.title = updated_title;
-
-      console.log(product);
-      return product.save();
-    }) */
   const product = new Product(
     updated_title,
     updated_price,
     updated_description,
     updated_imageUrl,
-    new mongoDb.ObjectId(productId)
+    productId
   );
   product
     .update()
