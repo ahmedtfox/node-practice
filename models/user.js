@@ -20,10 +20,37 @@ class User {
         console.log(err);
       });
   }
-  addToCart(product) {
-    //const cartProduct = this.cart.items.findIndex;
-    const productsInfo = { productId: new ObjectId(product._id), quantity: 1 };
-    const updatedCart = { items: [productsInfo] };
+  addToCart(productId) {
+    let cartProducts = this.cart.items;
+    //let cartProducts = [];
+    let newCart = [];
+    let newQuantity = 1;
+    let productExist = false;
+
+    for (let i = 0; i < cartProducts.length; i++) {
+      const productIndex = cartProducts[i];
+      const productIndexId = productIndex.productId;
+      if (productIndexId.toString() === productId.toString()) {
+        const oldQuantity = productIndex.quantity;
+        newQuantity = oldQuantity + 1;
+        productExist = true;
+        newCart = cartProducts;
+        newCart[i] = {
+          productId: new ObjectId(productId),
+          quantity: newQuantity,
+        };
+      }
+    }
+
+    if (!productExist) {
+      const productsInfo = {
+        productId: new ObjectId(productId),
+        quantity: newQuantity,
+      };
+      cartProducts.push(productsInfo);
+      newCart = cartProducts;
+    }
+    const updatedCart = { items: newCart };
     const db = getDB();
     return db
       .collection("users")
