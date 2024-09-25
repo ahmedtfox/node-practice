@@ -20,15 +20,16 @@ class User {
         console.log(err);
       });
   }
-  addToCArt(product) {
-    const cartProduct = this.cart.items.findIndex;
-    product.quantity = 1;
-    const updatedCart = { items: [product] };
+  addToCart(product) {
+    //const cartProduct = this.cart.items.findIndex;
+    const productsInfo = { productId: new ObjectId(product._id), quantity: 1 };
+    const updatedCart = { items: [productsInfo] };
     const db = getDB();
     return db
       .collection("users")
-      .updateOne({ _id: new ObjectId(id) }, { $set: { cart: updatedCart } })
+      .updateOne({ _id: this._id }, { $set: { cart: updatedCart } })
       .then((result) => {
+        console.log(result);
         return result;
       })
       .catch((err) => {

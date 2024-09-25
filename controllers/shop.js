@@ -103,8 +103,19 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.postCart = (req, res, next) => {
-  const productId = Number(req.body.productId);
-  let fetchedCart;
+  const productId = req.body.productId;
+  Product.findById(productId)
+    .then((product) => {
+      return req.user.addToCart(product);
+    })
+    .then((result) => {
+      res.redirect("/cart");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+
+  /*  let fetchedCart;
   req.user
     .getCart()
     .then((cart) => {
@@ -137,7 +148,7 @@ exports.postCart = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
-    });
+    }); */
 };
 
 exports.postCartDeleteProduct = (req, res, next) => {
