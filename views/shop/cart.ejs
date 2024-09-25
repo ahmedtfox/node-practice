@@ -9,7 +9,7 @@
           <%let totalPrice=0%>
           <% for(let i=0;i<cart.length;i++ ) { %>
             <%const item=cart[i]; %>
-            <%totalPrice=totalPrice+(item.price*item.cartItem.quantity)%>
+            <%totalPrice=totalPrice+(item.price*item.quantity)%>
               <li>
                 <ul  >
                   <li>
@@ -19,10 +19,10 @@
                     price is  <%= item.price%>
                   </li>
                   <li>
-                    quantity is <%= item.cartItem.quantity%>
+                    quantity is <%= item.quantity%>
                   </li>
                     <form action="/cart-delete-item" method="post">
-                      <input type="hidden" name="productId" value="<%= item.id%>">
+                      <input type="hidden" name="productId" value="<%= item._id%>">
                       <button class="btn" type="submit">Delete</button>
                     </form>
                 </ul>
