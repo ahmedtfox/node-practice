@@ -25,16 +25,20 @@ const ObjectId = require("mongodb").ObjectId;
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
 
 app.use((req, res, next) => {
-  const userId = new ObjectId("66f00c9cbeb7d244592e0e62");
+  const userId = "66f00c9cbeb7d244592e0e62";
   User.findById(userId)
     .then((user) => {
       req.user = user;
+      /* 
+      console.log("///////".repeat(20));
+      console.log(req.user._id);
+      console.log("///////".repeat(20)); 
+      */
       next();
     })
     .catch((err) => {
       console.log(err);
     });
-  next();
 });
 
 app.use(admin);
