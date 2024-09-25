@@ -7,8 +7,8 @@
             <% if(orders.length>0){ %>
                 <% orders.forEach((order=>{ %>
                 <ol>
-                    <h2><%= order.id %></h2>
-                    <%order.products.forEach((product)=>{%>
+                    <h2><%= order.user.username %></h2>
+                    <%order.items.forEach((product)=>{%>
                     <li>
                         <h4>title <%=product.title%></h4>
                     </li>

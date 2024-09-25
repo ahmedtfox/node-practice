@@ -146,6 +146,19 @@ class User {
         console.log(err);
       });
   }
+  getOrders() {
+    const db = getDB();
+    return db
+      .collection("orders")
+      .find({ "user._id": new ObjectId(this._id) })
+      .toArray()
+      .then((result) => {
+        return result;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
   static findById(userId) {
     const db = getDB();
     return db
