@@ -5,7 +5,6 @@ const Order = require("../models/oder");
 const { where } = require("sequelize");
 
 exports.getAddProduct = (req, res, next) => {
-  //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("admin/add-product", {
     docTitle: "Add Product",
     path: "/admin/add-product",
@@ -15,15 +14,13 @@ exports.getAddProduct = (req, res, next) => {
 };
 
 exports.postAddProduct = (req, res, next) => {
-  //console.log(req.body);
   const product = new Product(req.body.title);
   product.save();
-  // res.send("<h1>this is product!</h1>");
+
   res.redirect("/");
 };
 
 exports.getProducts = (req, res, next) => {
-  // res.sendFile(path.join(rootDir, "views", "shop.html"));
   Product.fetchAll()
     .then((rows) => {
       const data = rows || [];
@@ -39,7 +36,6 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  // res.sendFile(path.join(rootDir, "views", "shop.html"));
   Product.fetchAll().then((products) => {
     res.render("shop/index", {
       products: products,
@@ -50,7 +46,6 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   req.user
     .getCart()
     .then((cart) => {
@@ -70,7 +65,6 @@ exports.getCart = (req, res, next) => {
 };
 
 exports.getCheckout = (req, res, next) => {
-  //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("shop/checkout", {
     docTitle: "checkout",
     path: "/checkout",
