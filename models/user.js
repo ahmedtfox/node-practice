@@ -1,3 +1,5 @@
+const { name } = require("ejs");
+
 const ObjectId = require("mongodb").ObjectId;
 const getDB = require("../util/database").getDB;
 
@@ -102,6 +104,43 @@ class User {
       )
       .then((result) => {
         return result;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+  addOrder() {
+    const db = getDB();
+    return this.getCart()
+      .then((products) => {
+        const order = {
+          items: products,
+          user: {
+            _id: new ObjectId(this._id),
+            username: this.username,
+          },
+        };
+        return db
+          .collection("orders")
+          .insertOne(order)
+          .then((result) => {
+            this.cart = [];
+            return db
+              .collection("users")
+              .updateOne(
+                { _id: new ObjectId(this._id) },
+                { $set: { cart: { items: [] } } }
+              )
+              .then((result) => {
+                return result;
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       })
       .catch((err) => {
         console.log(err);
