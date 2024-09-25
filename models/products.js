@@ -72,6 +72,15 @@ class Product {
         //console.log(result);
         return result;
       })
+      .then((result) => {
+        return db.collection("users").find().toArray();
+      })
+      .then((users) => {
+        users[0].deleteItemFromCart(productId);
+        /* 
+        this is for one user but it has to be improved
+        */
+      })
       .catch((err) => {
         console.log(err);
       });

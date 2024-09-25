@@ -28,7 +28,6 @@ class User {
     let newCart = [];
     let newQuantity = 1;
     let productExist = false;
-
     for (let i = 0; i < cartProducts.length; i++) {
       const productIndex = cartProducts[i];
       const productIndexId = productIndex.productId;
