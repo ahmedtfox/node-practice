@@ -87,8 +87,10 @@ exports.postEditProduct = (req, res, next) => {
       prod.imageUrl = updated_imageUrl;
       prod.description = updated_description;
       prod.price = updated_price;
-
-      return prod
+      return prod;
+    })
+    .then((product) => {
+      return product
         .save()
         .then((result) => {
           return result;
@@ -98,7 +100,6 @@ exports.postEditProduct = (req, res, next) => {
         });
     })
     .then((result) => {
-      //console.log(result);
       res.redirect("/admin/products");
     })
     .catch((err) => {
