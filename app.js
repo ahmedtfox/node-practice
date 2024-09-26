@@ -16,8 +16,8 @@ const mongoose = require("mongoose");
 const User = require("./models/user.js");
 
 const admin = require("./routes/admin"); // order of importing doesn't matter
-/*
-const shop = require("./routes/shop"); */
+
+const shop = require("./routes/shop");
 const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded());
@@ -45,7 +45,7 @@ app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Sta
 }); */
 
 app.use(admin);
-//app.use(shop);
+app.use(shop);
 // order of using the routes matter
 
 // it doesn't matter because we use get

@@ -1,6 +1,4 @@
 const Product = require("../models/products");
-const Cart = require("../models/cart");
-const Order = require("../models/oder");
 
 const { where } = require("sequelize");
 
@@ -21,7 +19,7 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll()
+  Product.find()
     .then((rows) => {
       const data = rows || [];
       res.render("shop/product-list", {
@@ -36,7 +34,7 @@ exports.getProducts = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
-  Product.fetchAll().then((products) => {
+  Product.find().then((products) => {
     res.render("shop/index", {
       products: products,
       docTitle: "Shop",

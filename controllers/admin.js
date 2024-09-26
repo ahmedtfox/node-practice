@@ -22,7 +22,6 @@ exports.postAddProduct = (req, res, next) => {
     description: description,
     imageUrl: imageUrl,
   });
-
   product
     .save()
     .then((result) => {
@@ -36,7 +35,7 @@ exports.postAddProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
   // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  Product.fetchAll().then((products) => {
+  Product.find().then((products) => {
     const data = products || [];
     res.render("admin/products", {
       prods: data,
