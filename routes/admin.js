@@ -8,7 +8,7 @@ router.use(bodyParser.urlencoded());
 
 const rootDir = require("../util/path");
 const { title } = require("process");
-
+/* 
 const adminController = require("../controllers/admin");
 
 // /admin/products ==>GET
@@ -27,5 +27,5 @@ router.get("/admin/edit-product/:productId", adminController.getEditProduct);
 router.post("/admin/edit-product", adminController.postEditProduct);
 
 router.post("/admin/delete-product", adminController.postDeleteProduct); 
-
+ */
 module.exports = router;
