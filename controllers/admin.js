@@ -1,5 +1,19 @@
 const Product = require("../models/products");
-const mongoDb = require("mongodb");
+
+
+exports.getProducts = (req, res, next) => {
+  Product.find()
+    .then((products) => {
+      console.log(products);
+      const data = products || [];
+      res.render("admin/products", {
+        prods: data,
+        docTitle: "Admin Products",
+        path: "/admin/products",
+      });
+    });
+};
+
 exports.getAddProduct = (req, res, next) => {
   //res.sendFile(path.join(rootDir, "views", "add-product.html"));
   res.render("admin/edit-product", {
@@ -32,18 +46,6 @@ exports.postAddProduct = (req, res, next) => {
     .catch((err) => {
       console.log(err);
     });
-};
-
-exports.getProducts = (req, res, next) => {
-  // res.sendFile(path.join(rootDir, "views", "shop.html"));
-  Product.find().then((products) => {
-    const data = products || [];
-    res.render("admin/products", {
-      prods: data,
-      docTitle: "Admin Products",
-      path: "/admin/products",
-    });
-  });
 };
 
 exports.getEditProduct = (req, res, next) => {
