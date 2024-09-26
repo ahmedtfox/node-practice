@@ -1,7 +1,5 @@
 const Product = require("../models/products");
 
-const { where } = require("sequelize");
-
 exports.getAddProduct = (req, res, next) => {
   res.render("admin/add-product", {
     docTitle: "Add Product",
@@ -75,12 +73,9 @@ exports.getOrders = (req, res, next) => {
 };
 
 exports.getProduct = (req, res, next) => {
-  const prodId = req.params.productId;
-
+  const prodId = req.params.productId.toString();
   Product.findById(prodId)
     .then((product) => {
-      console.log("=====".repeat(20));
-      console.log(product);
       return res.render("shop/product-detail", {
         product: product,
         docTitle: "product detail",
@@ -94,6 +89,7 @@ exports.getProduct = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
   const productId = req.body.productId;
+
   Product.findById(productId)
     .then((product) => {
       return req.user.addToCart(product._id);
