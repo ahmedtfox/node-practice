@@ -1,4 +1,14 @@
-const mongodb = require("mongodb");
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+const productSchema = new Schema({
+  title: { type: String, required: true },
+  price: { type: Number, required: true },
+  description: { type: String, required: true },
+  imageUrl: { type: String, required: true },
+});
+
+/* const mongodb = require("mongodb");
 const getDB = require("../util/database").getDB;
 
 class Product {
@@ -77,14 +87,15 @@ class Product {
       })
       .then((users) => {
         users[0].deleteItemFromCart(productId);
-        /* 
+        
         this is for one user but it has to be improved
-        */
+        
       })
       .catch((err) => {
         console.log(err);
       });
   }
 }
+*/
 
 module.exports = Product;
