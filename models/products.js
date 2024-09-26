@@ -8,6 +8,8 @@ const productSchema = new Schema({
   imageUrl: { type: String, required: true },
 });
 
+module.exports = mongoose.model("Product", productSchema);
+
 /* const mongodb = require("mongodb");
 const getDB = require("../util/database").getDB;
 
@@ -97,5 +99,3 @@ class Product {
   }
 }
 */
-
-module.exports = Product;

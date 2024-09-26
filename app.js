@@ -14,9 +14,9 @@ app.set("views", "views");
 const mongoose = require("mongoose");
 
 const User = require("./models/user.js");
-/* 
-const admin = require("./routes/admin"); // order of importing doesn't matter
 
+const admin = require("./routes/admin"); // order of importing doesn't matter
+/*
 const shop = require("./routes/shop"); */
 const bodyParser = require("body-parser");
 
@@ -27,24 +27,24 @@ const ObjectId = require("mongodb").ObjectId;
 
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
 
-app.use((req, res, next) => {
+/* app.use((req, res, next) => {
   const userId = "66f00c9cbeb7d244592e0e62";
   User.findById(userId)
     .then((user) => {
       req.user = new User(user.name, user.email, user.cart, user._id); //////
-      /* 
+      
       console.log("///////".repeat(20));
       console.log(req.user._id);
       console.log("///////".repeat(20)); 
-      */
+      
       next();
     })
     .catch((err) => {
       console.log(err);
     });
-});
+}); */
 
-//app.use(admin);
+app.use(admin);
 //app.use(shop);
 // order of using the routes matter
 
