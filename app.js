@@ -49,7 +49,7 @@ app.use(shop);
 
 // it doesn't matter because we use get
 
-app.use(productsController.page404);
+//app.use(productsController.page404);
 
 mongoose
   .connect(

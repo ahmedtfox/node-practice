@@ -13,6 +13,41 @@ const userSchema = new Schema({
   },
 });
 
+userSchema.methods.addToCart = function (product) {
+  let cartProducts = this.cart.items;
+  //let cartProducts = [];
+  let newCart = [];
+  let newQuantity = 1;
+  let productExist = false;
+  let productId = product._id;
+  for (let i = 0; i < cartProducts.length; i++) {
+    const productIndex = cartProducts[i];
+    const productIndexId = productIndex.productId;
+    if (productIndexId.toString() === productId.toString()) {
+      const oldQuantity = productIndex.quantity;
+      newQuantity = oldQuantity + 1;
+      productExist = true;
+      newCart = cartProducts;
+      newCart[i] = {
+        productId: productId,
+        quantity: newQuantity,
+      };
+    }
+  }
+  if (!productExist) {
+    const productsInfo = {
+      productId: productId,
+      quantity: newQuantity,
+    };
+    cartProducts.push(productsInfo);
+    newCart = cartProducts;
+  }
+  const updatedCart = { items: newCart };
+
+  this.cart = updatedCart;
+  return this.save();
+};
+
 module.exports = mongoose.model("User", userSchema);
 
 /* const { name } = require("ejs");
