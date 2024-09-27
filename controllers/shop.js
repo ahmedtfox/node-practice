@@ -45,7 +45,7 @@ exports.getCart = (req, res, next) => {
   req.user
     .getCart()
     .then((cart) => {
-      console.log(cart);
+      //console.log(cart);
       res.render("shop/cart", {
         docTitle: "cart",
         path: "/cart",
@@ -105,7 +105,7 @@ exports.postCart = (req, res, next) => {
 exports.postCartDeleteProduct = (req, res, next) => {
   const productId = req.body.productId;
   req.user
-    .deleteItemFromCart(productId)
+    .removeFromCart(productId)
     .then((result) => {
       console.log(result);
       res.redirect("/cart");

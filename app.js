@@ -32,7 +32,6 @@ app.use((req, res, next) => {
   User.findById(userId)
     .then((user) => {
       req.user = user;
-
       console.log("/////".repeat(10));
       console.log(req.user._id);
       console.log("/////".repeat(10));
@@ -63,3 +62,13 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+
+/* 
+
+rD=,98Hf^4umZQ}&>
+
+
+mongodb+srv://ahmedmongo:rD=,98Hf^4umZQ}&>@cluster0.arm5u.mongodb.net/
+
+*/
