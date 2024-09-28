@@ -1,4 +1,7 @@
 const Product = require("../models/products");
+const Order = require("../models/order");
+const error = require("./error");
+const order = require("../models/order");
 
 exports.getAddProduct = (req, res, next) => {
   res.render("admin/add-product", {
@@ -116,12 +119,28 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-  let orderProducts;
-  let fetchCart;
   req.user
-    .addOrder()
-    .then((result) => {
-      res.redirect("/orders");
+    .populate("cart.items.productId")
+    .then((user) => {
+      const products = user.cart.items.map((prod) => {
+        return { quantity: prod.quantity, product: prod.productId };
+      });
+      const order = new Order({
+        user: {
+          name: req.user.username,
+          userId: req.user,
+        },
+        products: products,
+      });
+      return order
+        .save()
+        .then((result) => {
+          console.log(result);
+          res.redirect("/orders");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     })
     .catch((err) => {
       console.log(err);
@@ -129,11 +148,12 @@ exports.postOrder = (req, res, next) => {
 };
 
 exports.getOrders = (req, res, next) => {
-  req.user
-    .getOrders()
+  order
+    .findOne()
     .then((orders) => {
-      /* 
       console.log(orders);
+      /* 
+     
       console.log("---".repeat(10));
       console.log(orders[0].products[0]);
       console.log(orders[0].products[0].title);
@@ -146,5 +166,6 @@ exports.getOrders = (req, res, next) => {
     })
     .catch((err) => {
       console.log(err);
+      res.redirect(error.page404);
     });
 };
