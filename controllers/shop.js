@@ -152,15 +152,13 @@ exports.postOrder = (req, res, next) => {
 };
 
 exports.getOrders = (req, res, next) => {
-  order
-    .findOne()
+  Order.find({ "user.userId": req.user._id })
     .then((orders) => {
+      /*    
+      console.log("---".repeat(10));
       console.log(orders);
-      /* 
-     
       console.log("---".repeat(10));
       console.log(orders[0].products[0]);
-      console.log(orders[0].products[0].title);
  */
       res.render("shop/orders", {
         path: "/orders",
