@@ -73,6 +73,17 @@ userSchema.methods.getCart = function () {
     });
 };
 
+userSchema.methods.clearCart = function () {
+  this.cart = { items: [] };
+  return this.save()
+    .then((result) => {
+      //console.log(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+};
+
 module.exports = mongoose.model("User", userSchema);
 
 /* const { name } = require("ejs");
