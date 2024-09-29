@@ -17,6 +17,7 @@ const User = require("./models/user.js");
 
 const admin = require("./routes/admin"); // order of importing doesn't matter
 
+const auth = require("./routes/auth.js");
 const shop = require("./routes/shop");
 const bodyParser = require("body-parser");
 
@@ -44,6 +45,7 @@ app.use((req, res, next) => {
 
 app.use(admin);
 app.use(shop);
+app.use(auth);
 // order of using the routes matter
 
 // it doesn't matter because we use get
