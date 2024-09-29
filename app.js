@@ -40,21 +40,6 @@ app.use(
   })
 );
 
-app.use((req, res, next) => {
-  const userId = "66f56bdf1e513353b358a15c";
-  User.findById(userId)
-    .then((user) => {
-      req.user = user;
-      console.log("/////".repeat(10));
-      console.log(req.user._id);
-      console.log("/////".repeat(10));
-      next();
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
-
 app.use(admin);
 app.use(shop);
 app.use(auth);
