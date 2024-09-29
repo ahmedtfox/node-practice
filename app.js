@@ -17,6 +17,9 @@ const User = require("./models/user.js");
 
 const admin = require("./routes/admin"); // order of importing doesn't matter
 
+// session
+const session = require("express-session");
+
 const auth = require("./routes/auth.js");
 const shop = require("./routes/shop");
 const bodyParser = require("body-parser");
@@ -27,6 +30,10 @@ const errorPage = require("./controllers/error");
 const ObjectId = require("mongodb").ObjectId;
 
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
+
+app.use(
+  session({ secret: "my secret", resave: false, saveUninitialized: false })
+);
 
 app.use((req, res, next) => {
   const userId = "66f56bdf1e513353b358a15c";
