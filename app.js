@@ -22,7 +22,7 @@ const bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded());
 
-const productsController = require("./controllers/error");
+const errorPage = require("./controllers/error");
 const ObjectId = require("mongodb").ObjectId;
 
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
@@ -48,7 +48,7 @@ app.use(shop);
 
 // it doesn't matter because we use get
 
-app.use(productsController.page404);
+app.use(errorPage.get404);
 
 mongoose
   .connect(
@@ -62,7 +62,6 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
 
 /* 
 
