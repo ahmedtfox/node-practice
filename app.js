@@ -1,7 +1,3 @@
-const { text, buffer } = require("stream/consumers");
-
-const { error } = require("console");
-
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -12,6 +8,8 @@ app.set("views", "views");
 
 // Data Base
 const mongoose = require("mongoose");
+const mongodb_URL =
+  "mongodb+srv://ahmedmongo:rD=,98Hf^4umZQ}&>@cluster0.arm5u.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0";
 
 const User = require("./models/user.js");
 
@@ -19,6 +17,8 @@ const admin = require("./routes/admin"); // order of importing doesn't matter
 
 // session
 const session = require("express-session");
+const MongoDBStore = require("connect-mongodb-session")(session);
+const store = new MongoDBStore({ uri: mongodb_URL, collection: "sessions" });
 
 const auth = require("./routes/auth.js");
 const shop = require("./routes/shop");
@@ -32,7 +32,12 @@ const ObjectId = require("mongodb").ObjectId;
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
 
 app.use(
-  session({ secret: "my secret", resave: false, saveUninitialized: false })
+  session({
+    secret: "my secret",
+    resave: false,
+    saveUninitialized: false,
+    store: store,
+  })
 );
 
 app.use((req, res, next) => {
@@ -60,9 +65,7 @@ app.use(auth);
 app.use(errorPage.get404);
 
 mongoose
-  .connect(
-    "mongodb+srv://ahmedmongo:rD=,98Hf^4umZQ}&>@cluster0.arm5u.mongodb.net/shop?retryWrites=true&w=majority&appName=Cluster0"
-  )
+  .connect(mongodb_URL)
   .then((result) => {
     // user.save();
     //console.log(result);
