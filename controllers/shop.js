@@ -49,7 +49,7 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  User.findById(req.session.user._id)
+  req.user
     .populate("cart.items.productId")
     .then((user) => {
       const products = user.cart.items;
@@ -65,19 +65,18 @@ exports.getCart = (req, res, next) => {
 
 exports.postCart = (req, res, next) => {
   const prodId = req.body.productId;
-  let fetchProduct;
+
   console.log(req.session.user);
   Product.findById(prodId)
     .then((product) => {
-      fetchProduct = product;
-      return User.findById(req.session.user._id);
-    })
-    .then((user) => {
-      return user.addToCart(fetchProduct);
+      return req.user.addToCart(product);
     })
     .then((result) => {
       console.log(result);
       res.redirect("/cart");
+    })
+    .catch((err) => {
+      console.log(err);
     });
 };
 
@@ -93,7 +92,7 @@ exports.postCartDeleteProduct = (req, res, next) => {
 
 exports.postOrder = (req, res, next) => {
   let fetchedUser;
-  User.findById(req.session.user._id)
+  req.user
     .populate("cart.items.productId")
     .then((user) => {
       fetchedUser = user;
