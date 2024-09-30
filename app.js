@@ -20,6 +20,10 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const store = new MongoDBStore({ uri: mongodb_URL, collection: "sessions" });
 
+//CSRF
+const csrf = require("csurf");
+const csrfProtection = csrf();
+
 const auth = require("./routes/auth.js");
 const shop = require("./routes/shop");
 const bodyParser = require("body-parser");
@@ -39,6 +43,13 @@ app.use(
     store: store,
   })
 );
+app.use(csrfProtection);
+
+app.use((req, res, next) => {
+  res.locals.isAuthenticated = req.session.isLoggedIn;
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
 
 app.use((req, res, next) => {
   if (req.session.isLoggedIn === undefined) {
