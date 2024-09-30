@@ -16,9 +16,16 @@ exports.getLogin = (req, res, next) => {
 };
 
 exports.getSignup = (req, res, next) => {
+  let message = req.flash("error");
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
   res.render("auth/signup", {
     path: "/signup",
     pageTitle: "Signup",
+    errorMessage: message,
   });
 };
 
@@ -42,6 +49,7 @@ exports.postLogin = (req, res, next) => {
               res.redirect("/");
             });
           }
+          req.flash("error", "Invalid email or password.");
           res.redirect("/login");
         })
         .catch((err) => {
@@ -52,15 +60,19 @@ exports.postLogin = (req, res, next) => {
 };
 
 exports.postSignup = (req, res, next) => {
-  const name = req.body.name;
+  //const name = req.body.name;
   const email = req.body.email;
   const password = req.body.password;
   const confirmedPassword = req.body.confirmPassword;
-
+  if (!email || !password) {
+    console.log(!email || !password);
+    return res.redirect("/signup");
+  }
   User.findOne({ email: email })
     .then((user) => {
       if (user) {
         console.log("user already exist");
+        req.flash("error", "E-mail exists already, please pick another one.");
         return res.redirect("/signup");
       }
 
@@ -68,7 +80,7 @@ exports.postSignup = (req, res, next) => {
         .hash(password, 12)
         .then((hashedPassword) => {
           const newUser = new User({
-            name: name,
+            name: "name",
             email: email,
             password: hashedPassword,
             cart: { items: [] },
