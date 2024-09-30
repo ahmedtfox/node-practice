@@ -3,7 +3,6 @@ const Order = require("../models/order");
 const User = require("../models/user");
 
 exports.getProducts = (req, res, next) => {
-  console.log(req.session.user.cart.items);
   Product.find()
     .then((products) => {
       console.log(products);
@@ -34,6 +33,7 @@ exports.getProduct = (req, res, next) => {
 };
 
 exports.getIndex = (req, res, next) => {
+  console.log(req.session.isLoggedIn);
   Product.find()
     .then((products) => {
       res.render("shop/index", {

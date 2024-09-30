@@ -40,6 +40,13 @@ app.use(
   })
 );
 
+app.use((req, res, next) => {
+  if (req.session.isLoggedIn === undefined) {
+    req.session.isLoggedIn = false;
+  }
+  next();
+});
+
 app.use(admin);
 app.use(shop);
 app.use(auth);
