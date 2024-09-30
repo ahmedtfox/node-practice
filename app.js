@@ -20,6 +20,9 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const store = new MongoDBStore({ uri: mongodb_URL, collection: "sessions" });
 
+//connect-flash
+const flash = require("connect-flash");
+
 //CSRF
 const csrf = require("csurf");
 const csrfProtection = csrf();
@@ -31,7 +34,6 @@ const bodyParser = require("body-parser");
 app.use(bodyParser.urlencoded());
 
 const errorPage = require("./controllers/error");
-const ObjectId = require("mongodb").ObjectId;
 
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
 
@@ -43,7 +45,9 @@ app.use(
     store: store,
   })
 );
+
 app.use(csrfProtection);
+app.use(flash());
 
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.session.isLoggedIn;
