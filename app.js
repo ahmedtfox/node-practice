@@ -74,8 +74,6 @@ app.use(errorPage.get404);
 mongoose
   .connect(mongodb_URL)
   .then((result) => {
-    // user.save();
-    //console.log(result);
     app.listen(3000);
   })
   .catch((err) => {
