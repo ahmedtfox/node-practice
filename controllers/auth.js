@@ -18,9 +18,12 @@ exports.postLogin = (req, res, next) => {
     .then((result) => {
       req.session.isLoggedIn = true;
       req.session.user = result;
-    })
-    .then((result) => {
-      res.redirect("/");
+      req.session.save((err) => {
+        if (err) {
+          console.log(err);
+        }
+        return res.redirect("/");
+      });
     })
     .catch((err) => {
       console.log(err);
