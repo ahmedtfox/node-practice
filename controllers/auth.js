@@ -44,7 +44,7 @@ exports.postLogin = (req, res, next) => {
           if (isPasswordCorrect) {
             req.session.isLoggedIn = true;
             req.session.user = user;
-            main();
+            sendEmail();
             return req.session.save((err) => {
               console.log(err);
               res.redirect("/");
@@ -108,15 +108,14 @@ exports.postLogout = (req, res, next) => {
 };
 
 // async..await is not allowed in global scope, must use a wrapper
-async function main() {
+async function sendEmail() {
   const nodemailer = require("nodemailer");
   const Mailgen = require("mailgen");
-  let testAccount = await nodemailer.createTestAccount();
   let config = {
     service: "gmail",
     auth: {
       user: "ahmedmahfouzt@gmail.com",
-      pass: "vbyektuilkzaiguk",
+      pass: "vbyektuilkzaiguk", // this password from the Gmail
     },
   };
   let transporter = nodemailer.createTransport(config);
@@ -124,10 +123,8 @@ async function main() {
     theme: "default",
     product: {
       // Appears in header & footer of e-mails
-      name: "Mailgen",
-      link: "https://mailgen.js/",
-      // Optional product logo
-      // logo: 'https://mailgen.js/img/logo.png'
+      name: "shop",
+      link: "http://localhost:3000/",
     },
   });
 
@@ -155,7 +152,7 @@ async function main() {
   let msg = {
     from: "ahmedmahfouzt@gmail.com",
     /* to: "ahmed_mahfouz2014@outlook.com", */
-    to:"mahon73432@abevw.com",
+    to: "mahon73432@abevw.com",
     subject: "Hello ✔", // Subject line
     text: "Hello world?", // plain text body
     html: emailBody, // html body
