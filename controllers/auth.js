@@ -106,3 +106,67 @@ exports.postLogout = (req, res, next) => {
     res.redirect("/");
   });
 };
+
+// async..await is not allowed in global scope, must use a wrapper
+async function main() {
+  const nodemailer = require("nodemailer");
+  const Mailgen = require("mailgen");
+  let testAccount = await nodemailer.createTestAccount();
+  let config = {
+    service: "gmail",
+    auth: {
+      user: "ahmedmahfouzt@gmail.com",
+      pass: "vbyektuilkzaiguk",
+    },
+  };
+  let transporter = nodemailer.createTransport(config);
+  let mailGenerator = new Mailgen({
+    theme: "default",
+    product: {
+      // Appears in header & footer of e-mails
+      name: "Mailgen",
+      link: "https://mailgen.js/",
+      // Optional product logo
+      // logo: 'https://mailgen.js/img/logo.png'
+    },
+  });
+
+  let email = {
+    body: {
+      name: "Ahmed",
+      intro: "Welcome to Mailgen! We're very excited to have you on board.",
+      action: {
+        instructions: "To get started with Mailgen, please click here:",
+        button: {
+          color: "#22BC66", // Optional action button color
+          text: "Confirm your account",
+          link: "https://mailgen.js/confirm?s=d9729feb74992cc3482b350163a1a010",
+        },
+      },
+      outro:
+        "Need help, or have questions? Just reply to this email, we'd love to help.",
+    },
+  };
+
+  // Generate an HTML email with the provided contents
+  let emailBody = mailGenerator.generate(email);
+
+  // vbyektuilkzaiguk
+  let msg = {
+    from: "ahmedmahfouzt@gmail.com",
+    /* to: "ahmed_mahfouz2014@outlook.com", */
+    to:"mahon73432@abevw.com",
+    subject: "Hello ✔", // Subject line
+    text: "Hello world?", // plain text body
+    html: emailBody, // html body
+  };
+  // send mail with defined transport object
+  transporter
+    .sendMail(msg)
+    .then((res) => {
+      console.log(res);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
