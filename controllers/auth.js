@@ -44,6 +44,7 @@ exports.postLogin = (req, res, next) => {
           if (isPasswordCorrect) {
             req.session.isLoggedIn = true;
             req.session.user = user;
+            main();
             return req.session.save((err) => {
               console.log(err);
               res.redirect("/");
@@ -65,7 +66,7 @@ exports.postSignup = (req, res, next) => {
   const password = req.body.password;
   const confirmedPassword = req.body.confirmPassword;
   if (!email || !password) {
-    console.log(!email || !password);
+    //console.log(!email || !password);
     return res.redirect("/signup");
   }
   User.findOne({ email: email })
