@@ -35,12 +35,27 @@ exports.getSignup = (req, res, next) => {
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
+
+  const errors = validationResult(req);
+  //console.log(errors);
+  if (!errors.isEmpty()) {
+    const msgs = errors.array().map((error) => {
+      return error.msg;
+    });
+    return res.status(422).render("auth/login", {
+      path: "/signup",
+      pageTitle: "Signup",
+      errorMessage: msgs,
+    });
+  }
+
   User.findOne({ email: email })
     .then((user) => {
-      if (!user) {
+      /*       if (!user) {
         req.flash("error", "Invalid email or password.");
         return res.redirect("/login");
-      }
+      } */
+
       bcrypt
         .compare(password, user.password)
         .then((isPasswordCorrect) => {
@@ -72,7 +87,6 @@ exports.postSignup = (req, res, next) => {
     const msgs = errors.array().map((error) => {
       return error.msg;
     });
-    console.log(errors.array());
     return res.status(422).render("auth/signup", {
       path: "/signup",
       pageTitle: "Signup",

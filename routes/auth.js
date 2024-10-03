@@ -8,7 +8,19 @@ router.get("/login", authController.getLogin);
 
 router.get("/signup", authController.getSignup);
 
-router.post("/login", authController.postLogin);
+router.post(
+  "/login",
+  check("email").custom((value, { req }) => {
+    return User.findOne({ email: value }).then((user) => {
+      if (user) {
+        return true;
+      } else {
+        return Promise.reject("invalid E-mail !");
+      }
+    });
+  }),
+  authController.postLogin
+);
 
 router.post(
   "/signup",
