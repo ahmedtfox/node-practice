@@ -19,10 +19,17 @@ router.post(
       if (value === "ahmed2@gmail.com") {
         throw new Error("This Email address is forbidden");
       }
+      return true;
     }),
   check("password", "please enter a password with 5 length and Alphanumeric.")
     .isLength({ min: 5 })
     .isAlphanumeric("en-US"),
+  check("confirmPassword").custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error("password not match");
+      return true;
+    }
+  }),
   authController.postSignup
 );
 

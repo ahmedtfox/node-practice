@@ -70,11 +70,14 @@ exports.postSignup = (req, res, next) => {
   const errors = validationResult(req);
   //console.log(errors);
   if (!errors.isEmpty()) {
+    const msgs = errors.array().map((error) => {
+      return error.msg;
+    });
     console.log(errors.array());
     return res.status(422).render("auth/signup", {
       path: "/signup",
       pageTitle: "Signup",
-      errorMessage: errors.array()[0].msg,
+      errorMessage: msgs,
     });
   }
   if (!email || !password) {

@@ -8,7 +8,9 @@
 
     <main>
         <% if (errorMessage) { %>
-            <div class="user-message user-message--error"><%= errorMessage %></div>
+            <% errorMessage.forEach(msg=>{ %>
+            <div class="user-message user-message--error"><%= msg %></div>
+       <% });%>
         <% } %>
         <form class="login-form" action="/signup" method="POST">
             <div class="form-control">
