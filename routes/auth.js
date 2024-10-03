@@ -1,7 +1,7 @@
 const express = require("express");
 const { check, body } = require("express-validator");
 const authController = require("../controllers/auth");
-
+const User = require("../models/user");
 const router = express.Router();
 
 router.get("/login", authController.getLogin);
@@ -21,18 +21,28 @@ router.post(
       }
       return true;
     }),
+  check("email").custom((value, { req }) => {
+    return User.findOne({ email: value }).then((user) => {
+      if (user) {
+        console.log("user already exist");
+        return Promise.reject(
+          "E-mail exists already, please pick another one."
+        );
+      }
+    });
+  }),
   check("password", "please enter a password with 5 length and Alphanumeric.")
     .isLength({ min: 5 })
     .isAlphanumeric("en-US"),
   check("confirmPassword").custom((value, { req }) => {
     if (value !== req.body.password) {
       throw new Error("password not match");
-      return true;
     }
+    return true;
   }),
   authController.postSignup
 );
-
+// aa5ss5dd
 router.post("/logout", authController.postLogout);
 
 router.get("/reset/:resetToken", authController.getNewPassword);
