@@ -1,5 +1,5 @@
 const express = require("express");
-const { query } = require("express-validator");
+const { check } = require("express-validator");
 const authController = require("../controllers/auth");
 
 const router = express.Router();
@@ -12,7 +12,14 @@ router.post("/login", authController.postLogin);
 
 router.post(
   "/signup",
-  query("email").isEmpty().isEmail().withMessage("please enter a valid email."),
+  check("email")
+    .isEmail()
+    .withMessage("please enter a valid email.")
+    .custom((value, { req }) => {
+      if (value === "ahmed2@gmail.com") {
+        throw new Error("This Email address is forbidden");
+      }
+    }),
   authController.postSignup
 );
 
