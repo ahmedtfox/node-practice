@@ -1,5 +1,5 @@
 const express = require("express");
-const { check } = require("express-validator");
+const { check, body } = require("express-validator");
 const authController = require("../controllers/auth");
 
 const router = express.Router();
@@ -20,6 +20,9 @@ router.post(
         throw new Error("This Email address is forbidden");
       }
     }),
+  check("password", "please enter a password with 5 length and Alphanumeric.")
+    .isLength({ min: 5 })
+    .isAlphanumeric("en-US"),
   authController.postSignup
 );
 
