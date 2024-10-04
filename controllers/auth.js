@@ -15,6 +15,12 @@ exports.getLogin = (req, res, next) => {
     path: "/login",
     pageTitle: "Login",
     errorMessage: message,
+    oldInput: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+    validationErrors: [],
   });
 };
 
@@ -34,33 +40,40 @@ exports.getSignup = (req, res, next) => {
       password: "",
       confirmPassword: "",
     },
+    validationErrors: [],
   });
 };
 
 exports.postLogin = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
-
   const errors = validationResult(req);
-  //console.log(errors);
+  const msgs = errors.array().map((error) => {
+    return error.msg;
+  });
+  const errorsPath = errors.array().map((error) => {
+    return error.path;
+  });
+  console.log(errorsPath);
   if (!errors.isEmpty()) {
-    const msgs = errors.array().map((error) => {
-      return error.msg;
-    });
     return res.status(422).render("auth/login", {
       path: "/signup",
       pageTitle: "Signup",
       errorMessage: msgs,
+      oldInput: {
+        email: email,
+        password: password,
+      },
+      validationErrors: errorsPath,
     });
   }
 
   User.findOne({ email: email })
     .then((user) => {
-      /*       if (!user) {
+      if (!user) {
         req.flash("error", "Invalid email or password.");
         return res.redirect("/login");
-      } */
-
+      }
       bcrypt
         .compare(password, user.password)
         .then((isPasswordCorrect) => {
@@ -87,11 +100,13 @@ exports.postSignup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
   const errors = validationResult(req);
-  //console.log(errors);
+  const errorsPath = errors.array().map((error) => {
+    return error.path;
+  });
+  const msgs = errors.array().map((error) => {
+    return error.msg;
+  });
   if (!errors.isEmpty()) {
-    const msgs = errors.array().map((error) => {
-      return error.msg;
-    });
     return res.status(422).render("auth/signup", {
       path: "/signup",
       pageTitle: "Signup",
@@ -101,8 +116,10 @@ exports.postSignup = (req, res, next) => {
         password: password,
         confirmPassword: req.body.confirmPassword,
       },
+      validationErrors: errorsPath,
     });
   }
+
   if (!email || !password) {
     //console.log(!email || !password);
     return res.redirect("/signup");
