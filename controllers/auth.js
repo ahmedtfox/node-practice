@@ -2,6 +2,7 @@ const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const sendEmail = require("../util/mailer").sendEmail;
+const debug = require("../util/debug").printOut;
 const { validationResult } = require("express-validator");
 
 exports.getLogin = (req, res, next) => {
@@ -106,6 +107,7 @@ exports.postSignup = (req, res, next) => {
   const msgs = errors.array().map((error) => {
     return error.msg;
   });
+  debug(errorsPath);
   if (!errors.isEmpty()) {
     return res.status(422).render("auth/signup", {
       path: "/signup",
