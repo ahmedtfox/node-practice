@@ -62,18 +62,18 @@ app.use((req, res, next) => {
   if (req.session.user === undefined) {
     return next();
   }
-  //const userId = "66f56bdf1e513353b358a15c";
   const userId = req.session.user._id;
   User.findById(userId)
     .then((result) => {
+      if (!result) {
+        return next();
+      }
       req.session.isLoggedIn = true;
       req.user = result;
-    })
-    .then((result) => {
       return next();
     })
     .catch((err) => {
-      console.log(err);
+      throw new Error(err);
     });
 });
 
