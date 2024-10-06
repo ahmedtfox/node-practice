@@ -86,6 +86,10 @@ app.use(auth);
 
 app.get("/500", errorPage.get500);
 app.use(errorPage.get404);
+app.use((error, req, res, next) => {
+  res.httpStatusCode(error.httpStatusCode);
+  res.redirect("/500");
+});
 
 mongoose
   .connect(mongodb_URL)

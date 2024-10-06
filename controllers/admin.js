@@ -38,7 +38,6 @@ exports.postAddProduct = (req, res, next) => {
   const errorsPath = errors.array().map((error) => {
     return error.path;
   });
-
   console.log(errorsPath);
   if (!errors.isEmpty()) {
     debug(imageUrl);
@@ -72,7 +71,9 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect("/admin/products");
     })
     .catch((err) => {
-      res.render("/500");
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 };
 
