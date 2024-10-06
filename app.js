@@ -84,6 +84,7 @@ app.use(auth);
 
 // it doesn't matter because we use get
 
+app.get("/500", errorPage.get500);
 app.use(errorPage.get404);
 
 mongoose

@@ -72,7 +72,7 @@ exports.postAddProduct = (req, res, next) => {
       res.redirect("/admin/products");
     })
     .catch((err) => {
-      console.log(err);
+      res.render("/500");
     });
 };
 
