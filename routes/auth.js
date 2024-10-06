@@ -3,22 +3,28 @@ const { check, body } = require("express-validator");
 const authController = require("../controllers/auth");
 const User = require("../models/user");
 const router = express.Router();
-
+const debug = require("../util/debug").printOut;
 router.get("/login", authController.getLogin);
 
 router.get("/signup", authController.getSignup);
 
 router.post(
   "/login",
-  check("email").custom((value, { req }) => {
-    return User.findOne({ email: value }).then((user) => {
-      if (user) {
-        return true;
-      } else {
-        return Promise.reject("invalid E-mail !");
-      }
-    });
-  }),
+  check("email")
+    .isEmail()
+    .normalizeEmail()
+    .trim()
+    .custom((value, { req }) => {
+      return User.findOne({ email: value }).then((user) => {
+        if (user) {
+          debug(user);
+          return true;
+        } else {
+          debug(user);
+          return Promise.reject("invalid E-mail !");
+        }
+      });
+    }),
   authController.postLogin
 );
 
@@ -26,6 +32,8 @@ router.post(
   "/signup",
   check("email")
     .isEmail()
+    .normalizeEmail()
+    .trim()
     .withMessage("please enter a valid email.")
     .custom((value, { req }) => {
       if (value === "ahmed2@gmail.com") {
