@@ -42,11 +42,10 @@ router.post(
   "/admin/edit-product",
   isAuth,
   [
-    check("imageUrl").isEmpty().isURL().withMessage("invalid URL"),
-    check("title").isEmpty().isString().trim().withMessage("invalid title"),
-    check("price").isEmpty().isFloat().withMessage("invalid price"),
+    check("imageUrl").isURL().withMessage("invalid URL"),
+    check("title").isString().trim().withMessage("invalid title"),
+    check("price").isFloat().withMessage("invalid price"),
     check("description")
-      .isEmpty()
       .isString()
       .isLength({ min: 10 })
       .trim()

@@ -56,6 +56,8 @@ app.use((req, res, next) => {
 });
 
 app.use((req, res, next) => {
+  //throw new Error("rtttt");
+
   if (req.session.isLoggedIn === undefined) {
     req.session.isLoggedIn = false;
   }
@@ -70,10 +72,13 @@ app.use((req, res, next) => {
       }
       req.session.isLoggedIn = true;
       req.user = result;
+
       return next();
     })
     .catch((err) => {
-      throw new Error(err);
+      const error = new Error(err);
+      error.httpStatusCode = 500;
+      return next(error);
     });
 });
 
@@ -85,10 +90,17 @@ app.use(auth);
 // it doesn't matter because we use get
 
 app.get("/500", errorPage.get500);
+
 app.use(errorPage.get404);
 app.use((error, req, res, next) => {
-  res.httpStatusCode(error.httpStatusCode);
-  res.redirect("/500");
+  // res.httpStatusCode(error.httpStatusCode);
+  //res.redirect("/500");
+  console.log(error);
+  res.status(500).render("500", {
+    pageTitle: "Error",
+    path: "/404",
+    isAuthenticated: req.session.isLoggedIn,
+  });
 });
 
 mongoose
