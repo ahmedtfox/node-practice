@@ -32,7 +32,25 @@ const shop = require("./routes/shop");
 const bodyParser = require("body-parser");
 const multer = require("multer");
 
-app.use(multer({ dest: './public/data/uploads/' }).single("image"));
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(
+      null,
+      path.join(__dirname, "public", "data", "uploads") // Correctly resolve path using path.join
+    );
+  },
+  filename: (req, file, cb) => {
+    // Replace colons in ISO string for filename compatibility
+    cb(
+      null,
+      new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname
+    );
+  },
+});
+
+// Initialize Multer middleware
+app.use(multer({ storage: fileStorage }).single("image"));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 
 const errorPage = require("./controllers/error");
