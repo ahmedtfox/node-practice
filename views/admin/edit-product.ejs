@@ -21,6 +21,15 @@
                 type="text" name="title" id="title" value="<% if (editing) { %><%= prod.title %><% } %>">
             </div>
             <div class="form-control">
+                <label for="image">Image</label>
+                <input
+                class="<%= validationErrors.find(e => e === 'imageUrl') ? 'invalid' : '' %>"
+                value="<%= editing === true ? prod.imageUrl : oldInput.imageUrl %>"
+                type="file" 
+                name="image" 
+                id="image">
+            </div><!--
+            <div class="form-control"></div>
                 <label for="imageUrl">Image URL</label>
                 <input
                 class="<%= validationErrors.find(e => e === 'imageUrl') ? 'invalid' : '' %>"
@@ -28,7 +37,7 @@
                 type="text" 
                 name="imageUrl" 
                 id="imageUrl">
-            </div>
+            </div>-->
             <div class="form-control">
                 <label for="price">Price</label>
                 <input type="number" name="price" id="price" step="0.01"
