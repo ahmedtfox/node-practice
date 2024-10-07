@@ -20,7 +20,6 @@ router.post(
   "/admin/add-product",
   isAuth,
   [
-    check("imageUrl").isURL().withMessage("invalid URL"),
     check("title").isString().trim().withMessage("invalid title"),
     check("price").isFloat().withMessage("invalid price"),
     check("description")

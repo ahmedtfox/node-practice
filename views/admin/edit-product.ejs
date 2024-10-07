@@ -22,12 +22,14 @@
             </div>
             <div class="form-control">
                 <label for="image">Image</label>
+
                 <input
                 class="<%= validationErrors.find(e => e === 'imageUrl') ? 'invalid' : '' %>"
                 value="<%= editing === true ? prod.imageUrl : oldInput.imageUrl %>"
                 type="file" 
                 name="image" 
                 id="image">
+                
             </div><!--
             <div class="form-control"></div>
                 <label for="imageUrl">Image URL</label>

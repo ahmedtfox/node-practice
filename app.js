@@ -30,8 +30,10 @@ const csrfProtection = csrf();
 const auth = require("./routes/auth.js");
 const shop = require("./routes/shop");
 const bodyParser = require("body-parser");
+const multer = require("multer");
 
-app.use(bodyParser.urlencoded());
+app.use(multer({ dest: './public/data/uploads/' }).single("image"));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const errorPage = require("./controllers/error");
 
