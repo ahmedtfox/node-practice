@@ -43,7 +43,7 @@ exports.postAddProduct = (req, res, next) => {
       validationErrors: [],
     });
   }
-  const imageUrl = image.path;
+  const imageUrl = "\\" + image.path;
   debug(imageUrl);
   const errors = validationResult(req);
   const msgs = errors.array().map((error) => {
@@ -177,7 +177,7 @@ exports.postEditProduct = (req, res, next) => {
       product.price = updatedPrice;
       product.description = updatedDesc;
       if (updatedImage) {
-        product.imageUrl = updatedImage.path;
+        product.imageUrl = "\\" + updatedImage.path;
       }
       return product
         .save()

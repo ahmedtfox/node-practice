@@ -36,7 +36,8 @@ const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(
       null,
-      path.join(__dirname, "public", "data", "uploads") // Correctly resolve path using path.join
+      /*   path.join(__dirname, "images") // Correctly resolve path using path.join */
+      "images"
     );
   },
   filename: (req, file, cb) => {
@@ -70,6 +71,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 const errorPage = require("./controllers/error");
 
 app.use(express.static(path.join(__dirname, "public"))); //76. Serving Files Statically
+
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(
   session({
