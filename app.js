@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-
+const debug = require("./util/debug.js").printOut;
 // ejs
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -48,8 +48,22 @@ const fileStorage = multer.diskStorage({
   },
 });
 
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
 // Initialize Multer middleware
-app.use(multer({ storage: fileStorage }).single("image"));
+app.use(
+  multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -122,7 +136,7 @@ app.use((error, req, res, next) => {
     isAuthenticated: req.session.isLoggedIn,
   });
 });
-
+debug("");
 mongoose
   .connect(mongodb_URL)
   .then((result) => {
