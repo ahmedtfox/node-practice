@@ -279,3 +279,8 @@ form {
   background-color: #00695c;
   color: white;
 }
+
+.pagination a.active {
+  background-color: #00695c;
+  color: white;
+}
