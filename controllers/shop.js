@@ -5,7 +5,11 @@ const FS = require("fs");
 const path = require("path");
 const debug = require("../util/debug").printOut;
 const pdfDocument = require("pdfkit");
+const product = require("../models/product");
 
+const stripe = require("stripe")(
+  "sk_test_51KfPxBF1D52rbBxY03ZaYBUWR36HcJy9I83nRdhrQwWK2qDsFQkvmoMk7d9kZGNmHafh8FGQ3LT3oaxuFwlyYj5M00MESRKXGv"
+);
 const ITEMS_PER_PAGE = 1;
 
 exports.getProducts = (req, res, next) => {
@@ -108,21 +112,53 @@ exports.getCart = (req, res, next) => {
 };
 
 exports.getCheckout = (req, res, next) => {
+  let total = 0;
+  let products;
   req.user
     .populate("cart.items.productId")
     .then((user) => {
-      const products = user.cart.items;
-
-      let total = 0;
+      products = user.cart.items;
       products.forEach((p) => {
         total += p.quantity * p.productId.price;
       });
 
+      const line_items = products.map((p) => {
+        return {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: p.productId.title,
+            },
+            unit_amount: p.productId.price * 100, // Amount in cents
+          },
+          quantity: p.quantity,
+        };
+      });
+
+      const success_url =
+        req.protocol + "://" + req.get("host") + "/checkout/success";
+      const cancel_url =
+        req.protocol + "://" + req.get("host") + "/checkout/cancel";
+
+      return stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: line_items,
+        mode: "payment",
+        shipping_address_collection: {
+          allowed_countries: ["US", "BR"],
+        },
+        success_url: success_url,
+        cancel_url: cancel_url,
+      });
+    })
+    .then((session) => {
+      console.log(session);
       res.render("shop/checkout", {
         path: "/checkout",
         pageTitle: "Your checkout",
         products: products,
         totalSum: total,
+        sessionId: session.id,
       });
     })
     .catch((err) => console.log(err));
@@ -151,6 +187,33 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .removeFromCart(prodId)
     .then((result) => {
       res.redirect("/cart");
+    })
+    .catch((err) => console.log(err));
+};
+
+exports.getCheckoutSuccess = (req, res, next) => {
+  let fetchedUser;
+  req.user
+    .populate("cart.items.productId")
+    .then((user) => {
+      fetchedUser = user;
+      const products = user.cart.items.map((i) => {
+        return { quantity: i.quantity, product: { ...i.productId._doc } };
+      });
+      const order = new Order({
+        user: {
+          name: user.name,
+          userId: user,
+        },
+        products: products,
+      });
+      return order.save();
+    })
+    .then((result) => {
+      return fetchedUser.clearCart();
+    })
+    .then(() => {
+      res.redirect("/orders");
     })
     .catch((err) => console.log(err));
 };
