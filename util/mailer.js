@@ -1,13 +1,15 @@
 // async..await is not allowed in global scope, must use a wrapper
 const nodemailer = require("nodemailer");
 const Mailgen = require("mailgen");
+// .env file
+require("dotenv").config();
 
 exports.sendEmail = async (email) => {
   let config = {
     service: "gmail",
     auth: {
-      user: "ahmedmahfouzt@gmail.com",
-      pass: "vbyektuilkzaiguk", // this password from the Gmail
+      user: process.env.USER_EMAIL,
+      pass: process.env.USER_PASSWORD, // this password from the Gmail
     },
   };
 
@@ -57,9 +59,7 @@ exports.sendEmail = async (email) => {
 
   // vbyektuilkzaiguk
   let msg = {
-    from: "ahmedmahfouzt@gmail.com",
-    /* to: "ahmed_mahfouz2014@outlook.com", */
-    /*  to: "mahon73432@abevw.com", */
+    from: process.env.USER_EMAIL,
     to: email.to,
     subject: subject, // Subject line
     text: "Hello world?", // plain text body
