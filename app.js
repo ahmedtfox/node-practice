@@ -1,7 +1,6 @@
 // env file
 require("dotenv").config();
-
-
+const helmet = require("helmet");
 
 const express = require("express");
 const app = express();
@@ -64,7 +63,7 @@ const fileFilter = (req, file, cb) => {
     cb(null, false);
   }
 };
-
+app.use(helmet());
 // Initialize Multer middleware
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
