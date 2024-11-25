@@ -6,10 +6,9 @@ const path = require("path");
 const debug = require("../util/debug").printOut;
 const pdfDocument = require("pdfkit");
 const product = require("../models/product");
-
-const stripe = require("stripe")(
-  "sk_test_51KfPxBF1D52rbBxY03ZaYBUWR36HcJy9I83nRdhrQwWK2qDsFQkvmoMk7d9kZGNmHafh8FGQ3LT3oaxuFwlyYj5M00MESRKXGv"
-);
+require("dotenv").config();
+const STRIPE_KEY = process.env.STRIPE_KEY;
+const stripe = require("stripe")(STRIPE_KEY);
 const ITEMS_PER_PAGE = 1;
 
 exports.getProducts = (req, res, next) => {
