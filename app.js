@@ -1,7 +1,7 @@
 // env file
 require("dotenv").config();
 const helmet = require("helmet");
-
+const https = require("https");
 const express = require("express");
 const app = express();
 const path = require("path");
@@ -157,11 +157,19 @@ app.use((error, req, res, next) => {
 });
 debug("");
 
+const privateKey = fs.readFileSync("server.key", "utf8");
+const certificate = fs.readFileSync("server.cert", "utf8");
+
 const PORT = process.env.PORT;
 mongoose
   .connect(mongodb_URL)
   .then((result) => {
-    app.listen(PORT);
+    /* app.listen(PORT); */
+    https
+      .createServer({ key: privateKey, cert: certificate }, app)
+      .listen(PORT, () => {
+        console.log("Server running on https://localhost:", PORT);
+      });
   })
   .catch((err) => {
     console.log(err);
