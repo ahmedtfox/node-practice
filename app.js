@@ -64,6 +64,10 @@ const fileFilter = (req, file, cb) => {
   }
 };
 app.use(helmet());
+
+//Compression
+const compression = require("compression");
+app.use(compression());
 // Initialize Multer middleware
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
