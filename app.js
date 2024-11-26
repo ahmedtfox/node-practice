@@ -68,6 +68,15 @@ app.use(helmet());
 //Compression
 const compression = require("compression");
 app.use(compression());
+//Request Logging
+const fs = require("fs");
+const accessLogStream = fs.createWriteStream(
+  path.join(__dirname, "access.log"),
+  { flags: "a" }
+);
+const morgan = require("morgan");
+app.use(morgan("combined", { stream: accessLogStream }));
+
 // Initialize Multer middleware
 app.use(
   multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
